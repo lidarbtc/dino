@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=1600" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="x-rim-auto-match" content="none" />
+    <link rel="shortcut icon" href="../static/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../static/css/slick.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/sub.css" />
+    <title>DINO</title>
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/js/jquery-ui.min.js"></script>
+    <script src="../static/js/slick.min.js"></script>
+    <script src="../static/js/gsap.js"></script>
+    <script src="../static/js/gsap_scroll_trigger.js"></script>
+    <script src="../static/js/green.js"></script>
+    <script src="../static/js/common.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script src="../static/js/sub.js"></script>
+  </head>
+
+  <body>
+    <section>
+      <div class="home">
+        <nav>
+          <img class="dino_logo" src="../static/images/DINO.png" />
+          <ul>
+            <li>
+              <a href="home">
+                <div class="img_box">
+                  <img src="../static/images/home.png" />
+                </div>
+                <span>HOME</span>
+              </a>
+            </li>
+            <li></li>
+            <li class="active">
+              <a href="itemscrap">
+                <span>상품수집</span>
+                <div class="img_box">
+                  <img src="../static/images/product_collection_active.png" />
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="itemlist">
+                <div class="img_box">
+                  <img src="../static/images/product_list.png" />
+                </div>
+                <span>상품리스트</span>
+              </a>
+            </li>
+            <li>
+              <a href="mypage">
+                <div class="img_box">
+                  <img src="../static/images/my_page.png" />
+                </div>
+                <span>마이페이지</span>
+              </a>
+            </li>
+            <li>
+              <a href="api_setting">
+                <div class="img_box">
+                  <img src="../static/images/setting.png" />
+                </div>
+                <span>API설정</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="home_main">
+          <div class="main_homeicon">
+            <div class="item_scraping_title">
+              <img src="../static/images/main_mypageicon.png" />Item Scraping
+            </div>
+          </div>
+
+          <form method="POST" action="/itemscrap">
+          <div class="item_scraping" >
+            <div class="item_title">
+              <p>상품 URL을 입력하세요</p>
+            </div>
+            <div class="item_url">
+              <div>
+                  <input
+                    name="scrap"
+                    class="text_field url_memo"
+                    placeholder=""
+                  ></input>
+              </div>
+            </div>
+
+            <div class="filebox">
+              <label for="file"
+                ><img src="../static/images/plus_icon.png" /> 엑셀
+                파일첨부</label
+              >
+              <!-- <input type="file" id="file" />
+              <input
+                class="upload-name"
+                value="첨부파일"
+                placeholder="첨부파일"
+                disabled
+              />
+            </div> -->
+
+            <div class="item_collection_info">
+              <div>
+                <input
+                  type="submit"
+                  value="수집시작"
+                  class="collection_start"
+                />
+                <div>
+                  {% if isresult == True %}
+                  <ul>
+                    <li class="success_1">{{ successcount }}<span>성공</span></li>
+                    <li class="success_2">0<span>실패</span></li>
+                    <li class="total_product">{{ count }}<span>총상품수</span></li>
+                  </ul>
+                  {% else %}
+                  {% endif %} 
+                </div>
+              </div>
+            </div>
+            </form>
+
+            {% if fail == True %}
+            <div class="item_order_start">
+              <p>실패상품</p>
+              <div class="item_failed_product">
+                <div>
+                  <div class="failed_title">
+                    <span class="number">번호</span
+                    ><span class="link">상품 링크</span
+                    ><span class="reason">실패 사유</span>
+                  </div>
+                  <div class="content">
+                    <ul>
+                      <li>
+                        <span>1</span>
+                        <p>
+                          <a href="">
+                            https://detail.tmall.com/item.htm?spm=a230r.1.14.203.6e00fdc1eC8kAq&id=61...
+                          </a>
+                        </p>
+                        <p>링크오류</p>
+                      </li>
+                      <li>
+                        <span>2</span>
+
+                        <p>
+                          <a href="">
+                            https://detail.tmall.com/item.htm?spm=a230r.1.14.203.6e00fdc1eC8kAq&id=61...
+                          </a>
+                        </p>
+                        <p>링크오류</p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          {% endif %} 
+
+          </div>
+          <footer>
+            <p>Copyright © JnD LAB Corp. All rights reserved.</p>
+          </footer>
+        </div>
+      </div>
+      <script>
+        $("#file").on("change", function () {
+          var fileName = $("#file").val();
+          $(".upload-name").val(fileName);
+        });
+      </script>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=1600" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="x-rim-auto-match" content="none" />
+    <link rel="shortcut icon" href="../static/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../static/css/slick.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/sub.css" />
+    <title>DINO</title>
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/js/jquery-ui.min.js"></script>
+    <script src="../static/js/slick.min.js"></script>
+    <script src="../static/js/gsap.js"></script>
+    <script src="../static/js/gsap_scroll_trigger.js"></script>
+    <script src="../static/js/green.js"></script>
+    <script src="../static/js/common.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script src="../static/js/sub.js"></script>
+</head>
+
+<body><section>
+    <div class="home">
+        <nav>
+            <img class="dino_logo" src="../static/images/DINO.png">
+            <ul>
+                <li>
+                    <a href="home">
+                        <div class="img_box">
+                            <img src="../static/images/home.png">
+                        </div>
+                        <span>HOME</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="itemscrap">
+                        <div class="img_box">
+                            <img src="../static/images/product_collection.png">
+                        </div>
+                        <span>상품수집</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="itemlist">
+                        <div class="img_box">
+                            <img src="../static/images/product_list.png">
+                        </div>
+                        <span>상품리스트</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="mypage">
+                        <span>마이페이지</span>
+                        <div class="img_box">
+                            <img src="../static/images/my_page_active_icon.png">
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="api_setting">
+                        <div class="img_box">
+                            <img src="../static/images/setting.png">
+                        </div>
+                        <span>API설정</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="home_main">
+            <div class="main_homeicon">
+                <div>
+                    <img src="../static/images/main_mypageicon.png"> My Page
+                </div>
+            </div>
+
+            <div class="mypage_box">
+                <div>
+                    <ul>
+                        <li>
+                            <p>잔여일</p><span class="">17일</span>
+                        </li>
+                        <li>
+                            <p>배송비</p>
+                            <span class="day">기본배송비</span>
+                            <input type="number" name="email" class="text_field_mint" placeholder="">
+
+                            <span>교환</span>
+                            <input type="text" name="email" class="text_field" placeholder="">
+
+                            <span>반품</span>
+                            <input type="text" name="email" class="text_field" placeholder="">
+                        </li>
+
+                        <li>
+                            <p>판매가 설정</p>
+                            <span class="margin_rate">마진율</span>
+                            <input type="text" name="email" class="text_field_mint" placeholder="">
+
+                            <span>고정환율</span>
+                            <input type="text" name="email" class="text_field" placeholder="">
+
+                            <span>수수료</span>
+                            <input type="text" name="email" class="text_field" placeholder="">
+
+                            <span>추가값</span>
+                            <input type="text" name="email" class="text_field" placeholder="">
+
+                            <p class="price_formulas"><span>*</span>판매가 공식 : 제품가격 X 마진 X 환율 X 수수료 + 추가값 </p>
+                        </li>
+
+                        <li class="detail_page">
+                            <div>
+                                <p class="detailed_img">상세페이지 상단 이미지</p>
+                                <div class="filebox">
+                                    <label for="file1"><img src="../static/images/plus_icon.png">이미지 파일첨부</label>
+                                    <input type="file" id="file1">
+                                    <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+                                </div>
+                            </div>
+                            <div class="detail_attachment">
+                                <p class="detailed_img">상세페이지 상단 이미지</p>
+                                <div class="filebox">
+                                    <label for="file2"><img src="../static/images/plus_icon.png">이미지 파일첨부</label>
+                                    <input type="file" id="file2">
+                                    <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="radio_btn">
+                            <p>화면설정</p>
+                            <div class="radio">
+                                <input id="radio_1" name="radio" type="radio" checked="">
+                                <label for="radio_1" class="radio-label">라이트 모드</label>
+                            </div>
+
+                            <div class="radio">
+                                <input id="radio_2" name="radio" type="radio">
+                                <label for="radio_2" class="radio-label">다크 모드</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mypage_submit_btn">
+                <input type="submit" value="확 인" class="submit_btn">
+            </div>
+            <footer>
+                <p>Copyright © JnD LAB Corp. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            $(".filebox input[type=file]").on('change', function () {
+                var fileName = $(this).val();
+                $(this).next().val(fileName);
+            });
+        </script>
+</section></body>
+
+</html>

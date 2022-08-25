@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <script>
+      alert("{{messages[-1]}}");
+    </script>
+    {% endif %} {% endwith %}
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=1600" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="x-rim-auto-match" content="none" />
+    <link rel="shortcut icon" href="../static/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="../static/css/slick.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/sub.css" />
+    <title>DINO</title>
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/js/jquery-ui.min.js"></script>
+    <script src="../static/js/slick.min.js"></script>
+    <script src="../static/js/gsap.js"></script>
+    <script src="../static/js/gsap_scroll_trigger.js"></script>
+    <script src="../static/js/green.js"></script>
+    <script src="../static/js/common.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script src="../static/js/sub.js"></script>
+  </head>
+
+  <body>
+    <section>
+      <form method="post" action="/api_setting">
+        <div class="home">
+          <nav>
+            <img class="dino_logo" src="../static/images/DINO.png" />
+            <ul>
+              <li>
+                <a href="home">
+                  <div class="img_box">
+                    <img src="../static/images/home.png" />
+                  </div>
+                  <span>HOME</span>
+                </a>
+              </li>
+              <li>
+                <a href="itemscrap">
+                  <div class="img_box">
+                    <img src="../static/images/product_collection.png" />
+                  </div>
+                  <span>상품수집</span>
+                </a>
+              </li>
+              <li>
+                <a href="itemlist">
+                  <div class="img_box">
+                    <img src="../static/images/product_list.png" />
+                  </div>
+                  <span>상품리스트</span>
+                </a>
+              </li>
+              <li>
+                <a href="mypage">
+                  <div class="img_box">
+                    <img src="../static/images/my_page.png" />
+                  </div>
+                  <span>마이페이지</span>
+                </a>
+              </li>
+              <li class="active">
+                <a href="api_setting">
+                  <span>API설정</span>
+                  <div class="img_box">
+                    <img src="../static/images/setting_active.png" />
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <div class="home_main">
+            <div class="api_main_homeicon">
+              <div>
+                <img src="../static/images/main_mypageicon.png" /><span
+                  >API</span
+                ><span class="title_size">Setting</span>
+              </div>
+            </div>
+
+            <div class="api_wrap">
+              <!-- 네이버 스마트스토어 -->
+              <div class="api_box">
+                <div class="title">
+                  <p>
+                    <img
+                      src="../static/images/smartstore_icon.png"
+                    />스마트스토어
+                  </p>
+                </div>
+                <div class="api_storebox">
+                  <div>
+                    <p>ID</p>
+                    <input
+                      type="text"
+                      name="ssid"
+                      class="text_field"
+                      placeholder="{{ssid}}"
+                    />
+                  </div>
+                  <div>
+                    <p>Password</p>
+                    <input
+                      type="password"
+                      name="sspw"
+                      class="text_field"
+                      placeholder="{{sspw}}"
+                    />
+                  </div>
+                  <div class="confirm_btn">
+                    <input type="submit" value="확 인" class="submit_btn" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- ESM (옥션 로그인) -->
+              <div class="api_box">
+                <div class="title">
+                  <p>
+                    <img src="../static/images/ESM_icon.png" />ESM (옥션 로그인)
+                  </p>
+                </div>
+                <div class="api_storebox">
+                  <div>
+                    <p>ID</p>
+                    <input
+                      type="text"
+                      name="atid"
+                      class="text_field"
+                      placeholder="{{atid}}"
+                    />
+                  </div>
+                  <div>
+                    <p>Password</p>
+                    <input
+                      type="password"
+                      name="atpw"
+                      class="text_field"
+                      placeholder="{{atpw}}"
+                    />
+                  </div>
+                  <div class="confirm_btn">
+                    <input type="submit" value="확 인" class="submit_btn" />
+                  </div>
+                </div>
+              </div>
+
+              <!--쿠팡-->
+              <div class="api_box">
+                <div class="title">
+                  <p><img src="../static/images/ESM_icon.png" />쿠팡</p>
+                </div>
+                <div class="api_storebox">
+                  <div>
+                    <p>ID</p>
+                    <input
+                      type="text"
+                      name="cpid"
+                      class="text_field"
+                      placeholder="{{cpid}}"
+                    />
+                  </div>
+                  <div>
+                    <p>업체코드</p>
+                    <input
+                      type="text"
+                      name="cpcode"
+                      class="text_field"
+                      placeholder="{{cpcode}}"
+                    />
+                  </div>
+                  <div>
+                    <p>Access Key</p>
+                    <input
+                      type="text"
+                      name="cpak"
+                      class="text_field"
+                      placeholder="{{cpak}}"
+                    />
+                  </div>
+                  <div>
+                    <p>Secret Key</p>
+                    <input
+                      type="text"
+                      name="cppk"
+                      class="text_field"
+                      placeholder="{{cppk}}"
+                    />
+                  </div>
+                  <div>
+                    <p>구매대행 출고 소요일</p>
+                    <input
+                      type="text"
+                      name="cpday"
+                      class="text_field"
+                      placeholder="{{cpday}}"
+                    />
+                  </div>
+                  <div class="confirm_btn">
+                    <input type="submit" value="확 인" class="submit_btn" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- 11번가 -->
+              <div class="api_box">
+                <div class="title">
+                  <p>
+                    <img src="../static/images/11thStreet_icon.png" />11번가
+                  </p>
+                </div>
+                <div class="api_storebox">
+                  <div>
+                    <p>API KEY</p>
+                    <input
+                      type="text"
+                      name="elevenapi"
+                      class="text_field"
+                      placeholder="{{elevenapi}}"
+                    />
+                  </div>
+                  <div class="confirm_btn">
+                    <input type="submit" value="확 인" class="submit_btn" />
+                  </div>
+                </div>
+              </div>
+
+              <!--위메프-->
+              <div class="api_box">
+                <div class="title">
+                  <p><img src="../static/images/wmp_icon.png" />위메프</p>
+                </div>
+                <div class="api_storebox">
+                  <div>
+                    <p>ID</p>
+                    <input
+                      type="text"
+                      name="wpid"
+                      class="text_field"
+                      placeholder="{{wpid}}"
+                    />
+                  </div>
+                  <div>
+                    <p>Password</p>
+                    <input
+                      type="password"
+                      name="wppw"
+                      class="text_field"
+                      placeholder="{{wppw}}"
+                    />
+                  </div>
+                  <div class="confirm_btn">
+                    <input type="submit" value="확 인" class="submit_btn" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- 롯데온 -->
+              <div class="api_box">
+                <div class="title">
+                  <p><img src="../static/images/lotteon_icon.png" />롯데온</p>
+                </div>
+                <div class="api_storebox">
+                  <div>
+                    <p>API KEY</p>
+                    <input
+                      type="text"
+                      name="rtapi"
+                      class="text_field"
+                      placeholder="{{rtapi}}"
+                    />
+                  </div>
+                  <div>
+                    <p>배송 예정일</p>
+                    <input
+                      type="text"
+                      name="rtday"
+                      class="text_field"
+                      placeholder="{{rtday}}"
+                    />
+                  </div>
+                  <div class="confirm_btn">
+                    <input type="submit" value="확 인" class="submit_btn" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <footer>
+              <p>Copyright © JnD LAB Corp. All rights reserved.</p>
+            </footer>
+          </div>
+        </div>
+      </form>
+    </section>
+  </body>
+</html>

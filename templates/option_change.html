@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="viewport" content="width=1600" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="x-rim-auto-match" content="none" />
+  <link rel="shortcut icon" href="../static/images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="../static/css/slick.css" />
+  <link rel="stylesheet" type="text/css" href="../static/css/common.css" />
+  <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+  <link rel="stylesheet" type="text/css" href="../static/css/sub.css" />
+  <title>DINO</title>
+  <script src="../static/js/jquery-3.3.1.min.js"></script>
+  <script src="../static/js/jquery-ui.min.js"></script>
+  <script src="../static/js/slick.min.js"></script>
+  <script src="../static/js/gsap.js"></script>
+  <script src="../static/js/gsap_scroll_trigger.js"></script>
+  <script src="../static/js/green.js"></script>
+  <script src="../static/js/common.js"></script>
+  <script src="../static/js/main.js"></script>
+  <script src="../static/js/sub.js"></script>
+</head>
+
+<body><section>
+    <div class="option_change">
+        <div>
+            <div>
+                <p>옵션명 일괄수정</p>
+                <div class="option_change_detail">
+                    <ul>
+                        <li>
+                            <span>글자 변경</span>
+                            <input type="text" name="text_custom" class="text_field" placeholder="">
+                            <img src="../static/images/option_arrow.png">
+                            <input type="text" name="text_custom" class="text_field" placeholder="">
+                            <input type="submit" value="적용" class="submit_btn">
+                        </li>
+
+                        <li>
+                            <span>커스텀 글자 변경</span>
+                            <div>
+                                <input type="submit" value="설정" class="submit_btn">
+                                <input type="submit" value="적용" class="submit_btn">
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>특수문자 일괄제거</span>
+                            <input type="submit" value="적용" class="submit_btn">
+                        </li>
+
+                        <li>
+                            <div>
+                                <input type="submit" value="A_Z 옵션" class="submit_btn">
+                                <input type="submit" value="1~N번 옵션" class="submit_btn">
+                                <input type="submit" value="옵션명초기화" class="submit_btn">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="option_price">
+                <p>옵션명 가격설정</p>
+                <div class="option_change_detail">
+                    <ul>
+                        <li class="delivery_fee">
+                            <span>배송비</span>
+                            <div>
+                                 <input type="text" name="text_custom" class="text_field" placeholder=""><span>원 추가하기</span>
+                           </div>
+                            <img src="../static/images/green_check.png">
+                            <input type="submit" value="적용" class="submit_btn">
+                        </li>
+
+                        <li class="option_lowestprice">
+                            <span class="lowest_price">선택옵션 최저가 설정</span>
+                            <div>
+                                <input type="submit" value="설정" class="submit_btn">
+                                <input type="submit" value="적용" class="submit_btn">
+                            </div>
+                        </li>
+
+                        <li class="option_maximumprice">
+                            <span>선택 옵션 최대가 설정</span>
+                            <input type="submit" value="적용" class="submit_btn">
+                        </li>
+
+                        <li class="price_reset">
+                            <div class="initialization">
+                                <input type="submit" value="가격 초기화" class="submit_btn">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="select_option">
+            <div>
+                <ul>
+                    <form class="number_checkbox">
+                        <input id="all" type="checkbox">
+                        <label for="all">
+                            <span>전체선택</span>
+                        </label>
+                    </form>
+                    <li class="img">이미지</li>
+                    <li class="option_price">옵션가격</li>
+                    <li class="option_name">옵션명</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main_content">
+            <div>
+                <ul>
+                    <li>
+                        <form class="number_checkbox">
+                            <input id="agree_1" type="checkbox">
+                            <label for="agree_1">
+                            </label>
+                        </form>
+                        <span>1.</span>
+                        <img src="../static/images/option_img.png">
+                        <div>
+                            <span>¥188.1</span>
+                            <input type="text" name="text_custom" class="text_field" placeholder="">
+                        </div>
+                        <input type="text" name="text_custom" class="text_field" placeholder="">
+                    </li>
+
+                    <li>
+                        <form class="number_checkbox">
+                            <input id="agree_2" type="checkbox">
+                            <label for="agree_2">
+                            </label>
+                        </form>
+                        <span>2.</span>
+                        <img src="../static/images/option_img.png">
+                        <div>
+                            <span>¥188.1</span>
+                            <input type="text" name="text_custom" class="text_field" placeholder="">
+                        </div>
+                        <input type="text" name="text_custom" class="text_field" placeholder="">
+                    </li>
+
+                    <li>
+                        <form class="number_checkbox">
+                            <input id="agree_3" type="checkbox">
+                            <label for="agree_3">
+                            </label>
+                        </form>
+                        <span>3.</span>
+                        <img src="../static/images/option_img.png">
+                        <div>
+                            <span>¥188.1</span>
+                            <input type="text" name="text_custom" class="text_field" placeholder="">
+                        </div>
+                        <input type="text" name="text_custom" class="text_field" placeholder="">
+                    </li>
+
+                    <li class="error">
+                        <form class="number_checkbox">
+                            <input id="agree_4" type="checkbox">
+                            <label for="agree_4">
+                            </label>
+                        </form>
+                        <span>4.</span>
+                        <img src="../static/images/option_img.png">
+
+                        <div>
+                            <span>¥188.1</span>
+                            <input type="text" name="text_custom" class="text_field" placeholder="">
+                        </div>
+
+                        <div class="text_error">
+                            <input type="text" name="text_custom" class="text_field" placeholder="">
+                             <span>옵션명 글자 초과</span>
+                       </div>
+                    </li>
+
+                    <li>
+                        <form class="number_checkbox">
+                            <input id="agree_5" type="checkbox">
+                            <label for="agree_5">
+                            </label>
+                        </form>
+                        <span>5.</span>
+                        <img src="../static/images/option_img.png">
+                        <div>
+                            <span>¥188.1</span>
+                            <input type="text" name="text_custom" class="text_field" placeholder="">
+                        </div>
+                        <input type="text" name="text_custom" class="text_field" placeholder="">
+                    </li>
+                </ul>
+           </div>
+        </div>
+
+        <div class="option_btn">
+            <div>
+                <div class="option_check">
+                    <form class="number_checkbox">
+                        <input id="agree_6" type="checkbox">
+                        <label for="agree_6">
+                            상세페이지 옵션이미지 적용
+                        </label>
+                    </form>
+                </div>
+                <div class="confirm_cancel_btn">
+                    <input type="submit" value="확인" class="submit_btn">
+                    <input type="submit" value="취소" class="cancel_btn">
+                </div>
+            </div>
+        </div>
+</section></body>
+
+</html>
