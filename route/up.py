@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import time
+import random
 
 def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent):
     driver = webdriver.Firefox()
@@ -72,10 +73,23 @@ def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent):
     upload = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[3]/div[2]/div[1]/button[3]")))
     upload.click()
 
+    time.sleep(3)
+
+    driver.close()
+
 def wpupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
     driver = webdriver.Firefox()
     driver.maximize_window()
     driver.get("https://wpartner.wemakeprice.com/login")
     wait = WebDriverWait(driver, 10)
+    rd = random.randrange(1,9999999)
 
-wpupload(1,1,1000,1000,1000,1000)
+    time.sleep(2)
+
+    with open('./{}.png'.format(rd), 'wb') as file:
+        file.write(driver.find_element(By.XPATH, '//*[@id="_captchaImage"]').screenshot_as_png)
+
+    driver.close()
+    
+while True:
+    wpupload(1,1,1000,1000,1000,1000)
