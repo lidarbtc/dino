@@ -3,8 +3,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import FirefoxOptions
+from wcaptcha import captcha_predict
 import time
 import random
+import os
 
 def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent):
     driver = webdriver.Firefox()
@@ -78,18 +81,29 @@ def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent):
     driver.close()
 
 def wpupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
-    driver = webdriver.Firefox()
+    options = FirefoxOptions()
+    options.add_argument('-headless')
+
+    driver = webdriver.Firefox(options=options)
     driver.maximize_window()
     driver.get("https://wpartner.wemakeprice.com/login")
     wait = WebDriverWait(driver, 10)
-    rd = random.randrange(1,9999999)
+
+    rd = str(random.randrange(1,100000))
+    rd = rd.replace('1', '2')
+    rd = rd.replace('9', '8')
+    rd = rd.replace('0', '1')
 
     time.sleep(2)
 
-    with open('./{}.png'.format(rd), 'wb') as file:
+    with open('./wcaptcha/dataset/predict/{}.png'.format(rd), 'wb') as file:
         file.write(driver.find_element(By.XPATH, '//*[@id="_captchaImage"]').screenshot_as_png)
+
+    captcha = captcha_predict.main(rd)
+
+    os.system("rm ./wcaptcha/dataset/predict/{}.png".format(rd))
 
     driver.close()
     
-while True:
-    wpupload(1,1,1000,1000,1000,1000)
+
+wpupload(1,1,1000,1000,1000,1000)

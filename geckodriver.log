@@ -1,0 +1,25 @@
+1661748002805	geckodriver	INFO	Listening on 127.0.0.1:47925
+1661748002848	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-headless" "--remote-debugging-port" "36997" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofilecaBzNh"
+*** You are running in headless mode.
+1661748003071	Marionette	INFO	Marionette enabled
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilecaBzNh/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:36997/devtools/browser/4b69eb49-6458-45ec-a209-2547ce5fc72d
+1661748004087	Marionette	INFO	Listening on port 40997
+1661748004170	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1661748045866	geckodriver	INFO	Listening on 127.0.0.1:59171
+1661748045889	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-headless" "--remote-debugging-port" "47273" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileOodqDG"
+*** You are running in headless mode.
+1661748046102	Marionette	INFO	Marionette enabled
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileOodqDG/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:47273/devtools/browser/5bbc1007-29a9-4dd6-a91a-847af110fd72
+1661748047147	Marionette	INFO	Listening on port 37325
+1661748047233	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1661748539445	Marionette	INFO	Stopped listening on port 40997
+Exiting due to channel error.
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x3900E5,name=PContent::Msg_GraphicsError) Channel error: cannot send/recv
+
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
