@@ -143,6 +143,79 @@ def wpupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
 
     driver.get("https://wpartner.wemakeprice.com/product/prodSet?setType=set")
 
+    catego = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"cateSchNm\"]")))
+    catego.send_keys("유아")
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"cateSchNm\"]")))
+    category.send_keys(Keys.RETURN)
+
+    time.sleep(1)
+
+    cate = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[3]/div[1]/form/div[4]/div[2]/div/table/tbody/tr[1]/td/div[2]/div/ul/li[1]")))
+    cate.click()
+
+    time.sleep(1)
+
+    name = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"prodNm\"]")))
+    name.send_keys("name")
+
+    brand = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[3]/div[1]/form/div[4]/div[2]/div/table/tbody/tr[5]/td/div/div[2]/label/span")))
+    brand.click()
+
+    md = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[3]/div[1]/form/div[4]/div[2]/div/table/tbody/tr[7]/td/div/div[2]/label/span")))
+    md.click()
+
+    time.sleep(1)
+
+    op = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"originPrice\"]")))
+    op.send_keys("10000000")
+
+    time.sleep(1)
+
+    sp = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"salePrice\"]")))
+    sp.send_keys("10000000")
+
+    time.sleep(1)
+
+    count = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"stockCount\"]")))
+    count.send_keys("1000")
+
+    time.sleep(1)
+
+    taoimg = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[3]/div[1]/form/div[12]/div[2]/div/table/tbody/tr[3]/td/div[3]/div[1]/label/label/input")))
+    taoimg.send_keys(r"/home/hj/문서/GitHub/dino/a.png") # 오류
+
+    time.sleep(1)
+
+    taoimg2 = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[3]/div[1]/form/div[12]/div[2]/div/table/tbody/tr[3]/td/div[5]/div/label/label/input")))
+    taoimg2.send_keys(r"/home/hj/문서/GitHub/dino/a.png") # 오류
+
+    time.sleep(1)
+
+    change = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[3]/div[1]/form/div[12]/div[2]/div/table/tbody/tr[4]/td/div[1]/label[2]/span")))
+    change.click()
+
+    time.sleep(1)
+
+    iframe = wait.until(EC.presence_of_element_located((By.TAG_NAME, "iframe")))
+    driver.switch_to.frame(iframe)
+
+    time.sleep(1)
+
+    content = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body")))
+    content.send_keys("1000")
+
+    time.sleep(1)
+
+    driver.switch_to.default_content()
+
+    time.sleep(1)
+
+    up = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"setProdInfoBtn\"]")))
+    up.click()
+
+    time.sleep(1)
+
     driver.close()
 
 def gupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
