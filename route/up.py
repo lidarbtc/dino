@@ -8,6 +8,7 @@ from wcaptcha import captcha_predict
 import time
 import random
 import os
+import requests
 
 def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent):
     driver = webdriver.Firefox()
@@ -82,28 +83,70 @@ def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent):
 
 def wpupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
     options = FirefoxOptions()
-    options.add_argument('-headless')
+    #options.add_argument('-headless')
 
     driver = webdriver.Firefox(options=options)
     driver.maximize_window()
     driver.get("https://wpartner.wemakeprice.com/login")
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 5)
 
     rd = str(random.randrange(1,100000))
     rd = rd.replace('1', '2')
     rd = rd.replace('9', '8')
-    rd = rd.replace('0', '1')
+    rd = rd.replace('0', '3')
 
     time.sleep(2)
 
-    with open('./wcaptcha/dataset/predict/{}.png'.format(rd), 'wb') as file:
-        file.write(driver.find_element(By.XPATH, '//*[@id="_captchaImage"]').screenshot_as_png)
+    try:
+        while True:
+            with open('./wcaptcha/dataset/predict/{}.png'.format(rd), 'wb') as file:
+                file.write(driver.find_element(By.XPATH, '//*[@id="_captchaImage"]').screenshot_as_png)
+            try:
+                captcha = captcha_predict.main(rd)
+                username = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[2]/div[1]/div/div[1]/div[1]/input[1]")))
+                password = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[2]/div[1]/div/div[1]/div[1]/input[2]")))
 
-    captcha = captcha_predict.main(rd)
+                username.send_keys("junii0131")
+                time.sleep(1)
+                password.send_keys("45396861Wns!")
+                time.sleep(1)
 
-    os.system("rm ./wcaptcha/dataset/predict/{}.png".format(rd))
+                capt = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"_captchaWord\"]")))
+                capt.send_keys(captcha)
+                time.sleep(1)
+
+                login = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"login\"]")))
+                login.click()
+
+                isSuccess = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"login\"]")))
+
+                os.system("rm ./wcaptcha/dataset/predict/{}.png".format(rd))
+
+                if isSuccess:
+                    break
+
+            except:
+                continue
+    except:
+        username = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[2]/div[1]/div/div[1]/div[1]/input[1]")))
+        password = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[2]/div[1]/div/div[1]/div[1]/input[2]")))
+
+        username.send_keys("junii0131")
+        time.sleep(1)
+        password.send_keys("45396861Wns!")
+        time.sleep(1)
+
+        login = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"login\"]")))
+        login.click()
+
+    time.sleep(2)
+
+    driver.get("https://wpartner.wemakeprice.com/product/prodSet?setType=set")
 
     driver.close()
-    
 
-wpupload(1,1,1000,1000,1000,1000)
+def gupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
+    pass
+    
+for i in range(1, 3000):
+    wpupload(1,1,1000,1000,1000,1000)
