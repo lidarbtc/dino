@@ -126,7 +126,7 @@ def wpupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
                     break
 
             except:
-                continue
+                pass
     except:
         username = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[2]/div[1]/div/div[1]/div[1]/input[1]")))
         password = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[2]/div[1]/div/div[1]/div[1]/input[2]")))
@@ -182,8 +182,18 @@ def wpupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
 
     time.sleep(1)
 
+    taoimg = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"prodImgRegArea0\"]")))
+    taoimg.click()
+
+    time.sleep(1)
+
     taoimg = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[3]/div[1]/form/div[12]/div[2]/div/table/tbody/tr[3]/td/div[3]/div[1]/label/label/input")))
     taoimg.send_keys(r"/home/hj/문서/GitHub/dino/a.png") # 오류
+
+    time.sleep(1)
+
+    taoimg2 = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"prodImgRegArea3\"]")))
+    taoimg2.click()
 
     time.sleep(1)
 
@@ -211,6 +221,21 @@ def wpupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
 
     time.sleep(1)
 
+    change = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"gnoticeNo_0\"]")))
+    change.click()
+
+    time.sleep(1)
+
+    change = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[3]/div[1]/form/div[14]/div[2]/div/table/tbody/tr[2]/td/div/div[1]/select/option[2]")))
+    change.click()
+
+    time.sleep(1)
+
+    change = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[3]/div[1]/form/div[14]/div[2]/div/table/tbody/tr[3]/td/div/div/div[1]/div/label/span")))
+    change.click()
+
+    time.sleep(1)
+
     up = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"setProdInfoBtn\"]")))
     up.click()
 
@@ -219,7 +244,28 @@ def wpupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
     driver.close()
 
 def gupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
-    pass
-    
-for i in range(1, 3000):
-    wpupload(1,1,1000,1000,1000,1000)
+    options = FirefoxOptions()
+    #options.add_argument('-headless')
+
+    driver = webdriver.Firefox(options=options)
+    driver.maximize_window()
+    driver.get("https://www.esmplus.com/Member/SignIn/LogOn")
+    wait = WebDriverWait(driver, 5)
+
+    gm = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div[2]/div/div/div/div/div[2]/div/div[1]/div/div[1]/label[2]")))
+    gm.click()
+
+    username = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"SiteId\"]")))
+    password = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"SitePassword\"]")))
+
+    username.send_keys("junii0131")
+    time.sleep(1)
+    password.send_keys("45396861Wns!")
+    time.sleep(1)
+
+    login = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div[2]/div/div/div/div/div[2]/div/div[1]/div/form/fieldset/div[2]/a/img")))
+    login.click()
+
+    time.sleep(1)
+
+    driver.get("https://www.esmplus.com/Home/Home#HTDM395")
