@@ -7,7 +7,7 @@ import threading
 
 app = Flask(__name__)
 bcrypt = Bcrypt()
-app.config["SECRET_KEY"] = os.urandom(21)
+app.config["SECRET_KEY"] = os.urandom(55)
 app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(minutes=60)
 
 HTML_PATH_HOME = './home.html'
@@ -154,10 +154,6 @@ def itemlist():
         except:
             return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=False)
 
-        print(title)
-        print(type(title))
-        print(propprice)
-        print(type(propprice))
         return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid, title=title, propprice=propprice, taobaoimg=taobaoimg, propimg=propimg)
 
     if request.method == 'POST':
@@ -181,22 +177,16 @@ def itemscrap():
     elif request.method == 'POST':
         try:
             taobao = request.form.get('scrap')
-            print(taobao)
-            print(type(taobao))
             result = api.taobao(taobao)
 
             product_id = str(result['item']['num_iid']) # 상품번호
             title = result['item']['title'] # 상품제목
             price = result['item']['price'] # 상품 가격(할인 적용)
             orginal_price = result['item']['orginal_price'] # 상품 가격 (할인 미적용)
-            product_imgurl = result['item']['item_imgs']#[0]['url'] # 상품 사진 링크
+            product_imgurl = result['item']['item_imgs'] # 상품 사진 링크
             desc_imgurl = result['item']['desc_img'] # 상품 설명 사진, 없을 수 도 있음.
-            prop_price = result['item']['skus']['sku']#[0]['price'] # 옵션 가격 (할인 적용)
-            prop_orginalprice = result['item']['skus']['sku']#[0]['orginal_price'] # 옵션 가격 (할인 미적용)
-            prop_imgurl = result['item']['prop_imgs']['prop_img']#[0]['url'] # 옵션 사진 링크
-            propname = result['item']['skus']['sku']#[0]['properties_name'] # 옵션 이름
-            propid = str(result['item']['skus']['sku'])#[0]['sku_id']) # 옵션 id
-
+            prop = result['item']['skus']['sku'] # 옵션
+            
             for i, n in enumerate(product_imgurl):
                 get.imgpt(n['url'], product_id, i) # 사진을 폴더에 저장
                 product_img = product_id + "_" + i
@@ -210,13 +200,13 @@ def itemscrap():
                     desc_img = "../static/desc_img/"+desc_img+".png"
                     db.db_connector(f"INSERT INTO descimg(productid, img) VALUES('{product_id}', '{desc_img}');")
             
-            for i, n in enumerate(prop_imgurl):
-                get.imgpp(n['url'], propid, i) # 사진을 폴더에 저장
-
-            prop_img = "../static/prop_img/"+propid+".png" # 상대경로를 DB에 저장
+            for i, n in enumerate(prop):
+                get.imgpp(n['url'], n['properties'], i) # 사진을 폴더에 저장
+                prop_img = "../static/prop_img/"+n['properties']+".png"
+                prop_name = n['properties_name'].split(':')[3]
+                db.db_connector(f"INSERT INTO prop(propid, productid, propname, price, orginalprice, img) VALUES('{n['properties']}', {product_id}', '{prop_name}', '{n['price']}', '{n['orginal_price']}' '{prop_img}');")
 
             db.db_connector(f"INSERT INTO taobao(productid, title, price, orginalprice) VALUES('{product_id}', '{title}', '{price}', '{orginal_price}');")
-            db.db_connector(f"INSERT INTO prop(propid, productid, propname, price, orginalprice, img) VALUES('{propid}', {product_id}', '{propname}', '{prop_price}', '{prop_orginalprice}' '{prop_img}');")
             db.db_connector(f"INSERT INTO userproduct(userid, productid) VALUES('{session['user']}', '{product_id}');")
 
             return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], result=True, successcount=1, count=1)

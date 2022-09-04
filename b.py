@@ -23,9 +23,13 @@ b = r'{"item":{"num_iid":"600448952765","title":"新款多功能活氧微雾机�
 c = json.loads(b)
 
 pp = c['item']['item_imgs']
+prop = c['item']['skus']['sku']
 
-for i in desc_imgurl:
-    print(i)
+for i, n in enumerate(prop):
+    prop_name = n['properties_name'].split(':')[3]
+    print(prop_name)
+    
+    
 
 {
     "item": {
