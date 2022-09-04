@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import FirefoxOptions
+from selenium.webdriver import ChromeOptions
 from wcaptcha import captcha_predict
 import time
 import random
@@ -243,11 +244,11 @@ def wpupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
 
     driver.close()
 
-def gupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
-    options = FirefoxOptions()
+def gaupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
+    options = ChromeOptions()
     #options.add_argument('-headless')
 
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.Chrome("./chromedriver", options=options)
     driver.maximize_window()
     driver.get("https://www.esmplus.com/Member/SignIn/LogOn")
     wait = WebDriverWait(driver, 5)
@@ -262,10 +263,267 @@ def gupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
     time.sleep(1)
     password.send_keys("45396861Wns!")
     time.sleep(1)
-
+ 
     login = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div[2]/div/div/div/div/div[2]/div/div[1]/div/form/fieldset/div[2]/a/img")))
     login.click()
 
     time.sleep(1)
 
-    driver.get("https://www.esmplus.com/Home/Home#HTDM395")
+    mer = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div[2]/div[1]/div[2]/ul/li[1]/a")))
+    mer.click()
+
+    time.sleep(1)
+
+    mer2 = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"TDM395\"]")))
+    mer2.click()
+
+    time.sleep(2)
+
+    tabs = driver.window_handles
+
+    i = 1
+    while True:
+        try:
+            driver.switch_to.window(tabs[i])
+            driver.close()
+            i += 1
+            time.sleep(1)
+        except:
+            break
+    
+    time.sleep(1)
+
+    driver.switch_to.window(tabs[0])
+    driver.switch_to.frame("ifm_TDM395")
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[1]/div/div[2]/select[1]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[1]/div/div[2]/select[1]/option[12]")))
+    category.click()
+
+    time.sleep(1)
+    
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[1]/div/div[2]/select[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[1]/div/div[2]/select[2]/option[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[1]/div/div[2]/select[3]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[1]/div/div[2]/select[3]/option[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[2]/div/div/div/div[2]/select[1]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[2]/div/div/div/div[2]/select[1]/option[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[2]/div/div/div/div[2]/select[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[2]/div/div/div/div[2]/select[2]/option[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[2]/div/div/div/div[2]/select[3]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[2]/div/div/div/div[2]/select[3]/option[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[3]/div/div/div/div[2]/select[1]")))
+    category.click()
+    
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[3]/div/div/div/div[2]/select[1]/option[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[3]/div/div/div/div[2]/select[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[3]/div/div/div/div[2]/select[2]/option[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[3]/div/div/div/div[2]/select[3]")))
+    category.click()
+
+    time.sleep(1)
+
+    category = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[1]/div/table/tbody/tr[4]/td/div/div/div/div[3]/div/div/div/div[2]/select[3]/option[2]")))
+    category.click()
+
+    time.sleep(1)
+
+    name = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"txtGoodsNameSearch\"]")))
+    price = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"txtGoodsPrice\"]")))
+
+    name.send_keys("1111111")
+    time.sleep(1)
+    price.send_keys("10000000")
+    time.sleep(1)
+
+    next = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[3]/div/ol/li[2]/a")))
+    next.click()
+
+    time.sleep(1)
+
+    taoimg = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[2]/div/table/tbody/tr[1]/td/div/div/div[3]/ul/li[1]/div/form[1]/span[3]/input")))
+    taoimg.send_keys(r"/home/hj/문서/GitHub/dino/a.png")
+
+    time.sleep(1)
+
+    html = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[2]/div/table/tbody/tr[2]/td/div/div/table/tbody/tr[1]/td/div[1]/a[2]")))
+    html.click()
+
+    time.sleep(1)
+
+    tabs = driver.window_handles
+
+    driver.switch_to.window(tabs[1])
+
+    time.sleep(1)
+
+    driver.maximize_window()
+
+    time.sleep(1)
+
+    html = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"textarea-editor\"]")))
+    html.send_keys("<div>1111111</div>")
+
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[1]/div/div[3]/button[1]")))
+    done.click()
+
+    time.sleep(1)
+    driver.switch_to.window(tabs[0])
+    driver.switch_to.frame("ifm_TDM395")
+    time.sleep(1)
+
+
+    tak = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[2]/div/table/tbody/tr[4]/td/div/table/tbody/tr[3]/td/div/label[1]")))
+    tak.click()
+
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"selShipmentPlaceNo\"]")))
+    done.click()
+
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[2]/div/table/tbody/tr[4]/td/div/table/tbody/tr[5]/td/select/option[2]")))
+    done.click()
+
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"selBundleDeliveryTemp\"]")))
+    done.click()
+    
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[4]/div[2]/div/table/tbody/tr[4]/td/div/table/tbody/tr[5]/td/div[2]/div/div[1]/select/option[2]")))
+    done.click()
+
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[5]/a[3]")))
+    done.click()
+
+    time.sleep(5)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[5]/a[3]")))
+    done.click()
+
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[5]/a[2]")))
+    done.click()
+
+    time.sleep(1)
+
+    tabs = driver.window_handles
+    driver.switch_to.window(tabs[1])
+
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"lbConfirmForGoodsImage\"]")))
+    done.click()
+
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"lblConfirmForGoodsName\"]")))
+    done.click()
+
+    time.sleep(1)
+
+    #done = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"lblConfirmForSellerDiscount\"]")))
+    #done.click()
+
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"lblConfirmForGoodsPrice\"]")))
+    done.click()
+
+    time.sleep(1)
+
+    done = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"btnConfirm\"]")))
+    done.click()
+
+    time.sleep(1)
+    driver.switch_to.window(tabs[0])
+    time.sleep(1)
+
+    try:
+        alert = driver.switch_to.alert
+        alert.accept()
+    except:
+        pass
+
+    # alert 클릭 해야함!
+
+    time.sleep(1)
+
+    driver.close()
+
+def cupload():
+    pass
+
+def lotupload():
+    pass
+
+def oneupload():
+    pass

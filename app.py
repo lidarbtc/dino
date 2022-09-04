@@ -63,7 +63,7 @@ def register():
         business_number = request.form.get('business_number')
         business_pic = request.files['file']
 
-        business_pic.save("./static/b_img/{}.png".format(userid))
+        business_pic.save("./data/b_img/{}.png".format(userid))
 
         if not (userid and userid and userpw and reuserpw):
             flash("모두 입력해주세요.")
@@ -179,35 +179,49 @@ def itemscrap():
     if request.method == 'GET':
         return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'])
     elif request.method == 'POST':
-        taobao = request.form.get('scrap')
-        print(taobao)
-        print(type(taobao))
-        result = api.taobao(taobao)
+        try:
+            taobao = request.form.get('scrap')
+            print(taobao)
+            print(type(taobao))
+            result = api.taobao(taobao)
 
-        product_id = str(result['item']['num_iid']) # 상품번호
-        title = result['item']['num_iid'] # 상품제목
-        price = result['item']['price'] # 상품 가격(할인 적용)
-        #original_price = result['item']['original_price'] # 상품 가격 (할인 미적용)
-        product_imgurl = result['item']['item_imgs'][0]['url'] # 상품 사진 링크
-        #prop = result['item']['prop_imgs']['prop_img'][0]['properties'] # 옵션
-        prop_price = result['item']['skus']['sku'][0]['price'] # 옵션 가격 (할인 적용)
-        prop_originalprice = result['item']['skus']['sku'][0]['orginal_price'] # 옵션 가격 (할인 미적용)
-        prop_imgurl = result['item']['prop_imgs']['prop_img'][0]['url'] # 옵션 사진 링크
-        propname = result['item']['skus']['sku'][0]['properties_name'] # 옵션 이름
-        propid = str(result['item']['skus']['sku'][0]['sku_id']) # 옵션 id
+            product_id = str(result['item']['num_iid']) # 상품번호
+            title = result['item']['title'] # 상품제목
+            price = result['item']['price'] # 상품 가격(할인 적용)
+            orginal_price = result['item']['orginal_price'] # 상품 가격 (할인 미적용)
+            product_imgurl = result['item']['item_imgs']#[0]['url'] # 상품 사진 링크
+            desc_imgurl = result['item']['desc_img'] # 상품 설명 사진, 없을 수 도 있음.
+            prop_price = result['item']['skus']['sku']#[0]['price'] # 옵션 가격 (할인 적용)
+            prop_orginalprice = result['item']['skus']['sku']#[0]['orginal_price'] # 옵션 가격 (할인 미적용)
+            prop_imgurl = result['item']['prop_imgs']['prop_img']#[0]['url'] # 옵션 사진 링크
+            propname = result['item']['skus']['sku']#[0]['properties_name'] # 옵션 이름
+            propid = str(result['item']['skus']['sku'])#[0]['sku_id']) # 옵션 id
 
-        get.imgpt(product_imgurl, product_id) # 사진을 폴더에 저장
-        get.imgpp(prop_imgurl, propid) # 사진을 폴더에 저장
+            for i, n in enumerate(product_imgurl):
+                get.imgpt(n['url'], product_id, i) # 사진을 폴더에 저장
+                product_img = product_id + "_" + i
+                product_img = "../static/taobao_img/"+product_img+".png"
+                db.db_connector(f"INSERT INTO taobaoimg(productid, img) VALUES('{product_id}', '{product_img}');")
 
-        product_img = "../static/taobao_img/"+product_id+".png" # 상대경로를 DB에 저장
-        prop_img = "\"../static/prop_img/"+propid+".png\"" # 상대경로를 DB에 저장
+            if desc_imgurl:
+                for i, n in enumerate(desc_imgurl):
+                    get.imgpt(n, product_id, i) # 사진을 폴더에 저장
+                    desc_img = product_id + "_" + i
+                    desc_img = "../static/desc_img/"+desc_img+".png"
+                    db.db_connector(f"INSERT INTO descimg(productid, img) VALUES('{product_id}', '{desc_img}');")
+            
+            for i, n in enumerate(prop_imgurl):
+                get.imgpp(n['url'], propid, i) # 사진을 폴더에 저장
 
-        db.db_connector(f"INSERT INTO taobao(productid, title, price, originalprice) VALUES('{product_id}', '{title}', '{price}', '{1113213}');")
-        db.db_connector(f"INSERT INTO taobaoimg(productid, img) VALUES('{product_id}', '{product_img}');")
-        db.db_connector(f"INSERT INTO prop(propid, productid, propname, price, originalprice, img) VALUES('{propid}', {product_id}', '{propname}', '{prop_price}', '{prop_originalprice}' '{prop_img}');")
-        db.db_connector(f"INSERT INTO userproduct(userid, productid) VALUES('{session['user']}', '{product_id}');")
+            prop_img = "../static/prop_img/"+propid+".png" # 상대경로를 DB에 저장
 
-        return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], result=True, successcount=1, count=1)
+            db.db_connector(f"INSERT INTO taobao(productid, title, price, orginalprice) VALUES('{product_id}', '{title}', '{price}', '{orginal_price}');")
+            db.db_connector(f"INSERT INTO prop(propid, productid, propname, price, orginalprice, img) VALUES('{propid}', {product_id}', '{propname}', '{prop_price}', '{prop_orginalprice}' '{prop_img}');")
+            db.db_connector(f"INSERT INTO userproduct(userid, productid) VALUES('{session['user']}', '{product_id}');")
+
+            return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], result=True, successcount=1, count=1)
+        except:
+            return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], result=True, failcount=1, count=1)
 
 if __name__ == '__main__':
     app.run(host="localhost", port="5555", debug=True, threaded=True)
