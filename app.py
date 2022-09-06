@@ -139,33 +139,36 @@ def apiset():
         flash('적용되었습니다.')
         return render_template(HTML_PATH_APISET, username=session['user'], userplan=session['userplan'], ssid=ssid, sspw=sspw, atid=atid, atpw=atpw, cpid=cpid, cpcode=cpcode, cpak=cpak, cpsk=cpsk, cpday=cpday, elevenapi=elevenapi, rtapi=rtapi, rtday=rtday, wpid=wpid, wppw=wppw)
 
-@app.route('/itemlist', methods=['GET', 'POST'])
-def itemlist():
+@app.route('/itemlist/<int:listid>', methods=['GET'])
+def itemlist(listid):
     if not check.login:
         return render_template(HTML_PATH_INDEX)
 
-    if request.method == 'GET':
-        try:
-            productid = db.db_connector(f'''SELECT productid FROM userproduct WHERE userid="{session['user']}";''')
-            title = db.db_connector(f'''SELECT title FROM taobao WHERE userid="{productid}";''')
-            propprice = db.db_connector(f'''SELECT price FROM prop WHERE userid="{productid}";''')
-            taobaoimg = db.db_connector(f'''SELECT img FROM taobaoimg WHERE userid="{productid}";''')
-            propimg = db.db_connector(f'''SELECT img FROM prop WHERE userid="{productid}";''')
-        except:
-            return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=False)
-
-        return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid, title=title, propprice=propprice, taobaoimg=taobaoimg, propimg=propimg)
-
-    if request.method == 'POST':
+    try:
         productid = db.db_connector(f'''SELECT productid FROM userproduct WHERE userid="{session['user']}";''')
         title = db.db_connector(f'''SELECT title FROM taobao WHERE userid="{productid}";''')
         propprice = db.db_connector(f'''SELECT price FROM prop WHERE userid="{productid}";''')
         taobaoimg = db.db_connector(f'''SELECT img FROM taobaoimg WHERE userid="{productid}";''')
         propimg = db.db_connector(f'''SELECT img FROM prop WHERE userid="{productid}";''')
-        # 데이터 스플릿 해서 셀레니움에 집어넣기
-        threading.Thread(target=up.upload, args=(1,1,title,propprice,1000,"test")).start()
-        flash("업로드 완료되었습니다.")
-        # 셀레니움 작동 시키기
+    except:
+        return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=False)
+
+    return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid, title=title, propprice=propprice, taobaoimg=taobaoimg, propimg=propimg)
+
+@app.route('/itemlist', methods=['POST'])
+def itemlistup():
+    if not check.login:
+        return render_template(HTML_PATH_INDEX)
+
+    productid = db.db_connector(f'''SELECT productid FROM userproduct WHERE userid="{session['user']}";''')
+    title = db.db_connector(f'''SELECT title FROM taobao WHERE userid="{productid}";''')
+    propprice = db.db_connector(f'''SELECT price FROM prop WHERE userid="{productid}";''')
+    taobaoimg = db.db_connector(f'''SELECT img FROM taobaoimg WHERE userid="{productid}";''')
+    propimg = db.db_connector(f'''SELECT img FROM prop WHERE userid="{productid}";''')
+    # 데이터 스플릿 해서 셀레니움에 집어넣기
+    threading.Thread(target=up.upload, args=(1,1,title,propprice,1000,"test")).start()
+    flash("업로드 완료되었습니다.")
+    # 셀레니움 작동 시키기
 
 @app.route('/itemscrap', methods=['GET', 'POST'])
 def itemscrap():
