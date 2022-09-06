@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import FirefoxOptions
 from selenium.webdriver import ChromeOptions
-from wcaptcha import captcha_predict
+from route.wcaptcha import captcha_predict
 import time
 import random
 import os

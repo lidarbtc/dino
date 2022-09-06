@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <script>
+      alert("{{messages[-1]}}");
+    </script>
+    {% endif %} {% endwith %}
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta name="viewport" content="width=1600" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -121,7 +126,7 @@
                   {% if isresult == True %}
                   <ul>
                     <li class="success_1">{{ successcount }}<span>성공</span></li>
-                    <li class="success_2">0<span>실패</span></li>
+                    <li class="success_2">{{ failcount }}<span>실패</span></li>
                     <li class="total_product">{{ count }}<span>총상품수</span></li>
                   </ul>
                   {% else %}

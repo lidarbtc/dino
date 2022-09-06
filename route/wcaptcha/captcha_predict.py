@@ -3,9 +3,9 @@ import numpy as np
 import torch
 from torch.autograd import Variable
 #from visdom import Visdom # pip install Visdom
-from wcaptcha import captcha_setting
-from wcaptcha import my_dataset
-from wcaptcha.captcha_cnn_model import CNN
+from route.wcaptcha import captcha_setting
+from route.wcaptcha import my_dataset
+from route.wcaptcha.captcha_cnn_model import CNN
 
 def main(cname):
     cnn = CNN()

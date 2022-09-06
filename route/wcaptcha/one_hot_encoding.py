@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 import numpy as np
-from wcaptcha import captcha_setting
+from route.wcaptcha import captcha_setting
 
 
 def encode(text):

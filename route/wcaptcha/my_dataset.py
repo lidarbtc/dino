@@ -3,8 +3,8 @@ import os
 from torch.utils.data import DataLoader,Dataset
 import torchvision.transforms as transforms
 from PIL import Image
-from wcaptcha import one_hot_encoding as ohe
-from wcaptcha import captcha_setting
+from route.wcaptcha import one_hot_encoding as ohe
+from route.wcaptcha import captcha_setting
 
 class mydataset(Dataset):
 
