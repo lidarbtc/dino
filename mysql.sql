@@ -11,20 +11,20 @@ CREATE TABLE usertbl(
 ) ENGINE=INNODB;
 CREATE TABLE apikey(
     userid VARCHAR(300) PRIMARY KEY NOT NULL,
-    ssid VARCHAR(300) NOT NULL,
-    sspw VARCHAR(300) NOT NULL,
-    atid VARCHAR(300) NOT NULL,
-    atpw VARCHAR(300) NOT NULL,
-    cpid VARCHAR(300) NOT NULL,
-    cpcode VARCHAR(300) NOT NULL,
-    cpak VARCHAR(300) NOT NULL,
-    cpsk VARCHAR(300) NOT NULL,
-    cpday VARCHAR(300) NOT NULL,
-    elevenapi VARCHAR(300) NOT NULL,
-    rtapi VARCHAR(300) NOT NULL,
-    rtday VARCHAR(300) NOT NULL,
-    wpid VARCHAR(300) NOT NULL,
-    wppw VARCHAR(300) NOT NULL
+    ssid VARCHAR(300),
+    sspw VARCHAR(300),
+    atid VARCHAR(300),
+    atpw VARCHAR(300),
+    cpid VARCHAR(300),
+    cpcode VARCHAR(300),
+    cpak VARCHAR(300),
+    cpsk VARCHAR(300),
+    cpday VARCHAR(300),
+    elevenapi VARCHAR(300),
+    rtapi VARCHAR(300),
+    rtday VARCHAR(300),
+    wpid VARCHAR(300),
+    wppw VARCHAR(300)
 ) ENGINE=INNODB;
 CREATE TABLE taobao(
     productid VARCHAR(300) PRIMARY KEY NOT NULL,

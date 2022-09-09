@@ -101,22 +101,17 @@ def apiset():
 
     if request.method =='GET':
         userid = session['user']
-        data = db.db_connector(f'''SELECT ssid, sspw, atid, atpw, cpid, cpcode, cpak, cpsk, cpday, elevenapi, rtapi, rtday, wpid, wppw FROM apikey WHERE userid="{userid}"";''')
+        try:
+            data = db.db_connector(f'''SELECT ssid, sspw, atid, atpw, cpid, cpcode, cpak, cpsk, cpday, elevenapi, rtapi, rtday, wpid, wppw FROM apikey WHERE userid="{userid}"";''').split()
+        except:
+            return render_template(HTML_PATH_APISET, username=session['user'], userplan=session['userplan'])
 
-        ssid = data.split(' ')[0]
-        sspw = data.split(' ')[1]
-        atid = data.split(' ')[2]
-        atpw = data.split(' ')[3]
-        cpid = data.split(' ')[4]
-        cpcode = data.split(' ')[5]
-        cpak = data.split(' ')[6]
-        cpsk = data.split(' ')[7]
-        cpday = data.split(' ')[8]
-        elevenapi = data.split(' ')[9]
-        rtapi = data.split(' ')[10]
-        rtday = data.split(' ')[11]
-        wpid = data.split(' ')[12]
-        wppw = data.split(' ')[13]
+        ssid = data[0]; sspw = data[1]
+        atid = data[2]; atpw = data[3]
+        cpid = data[4]; cpcode = data[5]; cpak = data[6]; cpsk = data[7]; cpday = data[8]
+        elevenapi = data[9]
+        rtapi = data[10]; rtday = data[11]
+        wpid = data[12]; wppw = data[13]
         return render_template(HTML_PATH_APISET, username=session['user'], userplan=session['userplan'], ssid=ssid, sspw=sspw, atid=atid, atpw=atpw, cpid=cpid, cpcode=cpcode, cpak=cpak, cpsk=cpsk, cpday=cpday, elevenapi=elevenapi, rtapi=rtapi, rtday=rtday, wpid=wpid, wppw=wppw)
 
     elif request.method =='POST':
@@ -135,7 +130,7 @@ def apiset():
         wpid = request.form.get('wpid')
         wppw = request.form.get('wppw')
 
-        db.db_connector(f"INSERT INTO apikey(ssid, sspw, atid, atpw, cpid, cpcode, cpak, cpsk, cpday, elevenapi, rtapi, rtday, wpid, wppw) VALUES('{ssid}', '{sspw}', '{atid}', '{atpw}', '{cpid}', '{cpcode}', '{cpak}', '{cpsk}', '{cpday}', '{elevenapi}', '{rtapi}', '{rtday}', '{wpid}', '{wppw}');")
+        db.db_connector(f"REPLACE INTO apikey(userid, ssid, sspw, atid, atpw, cpid, cpcode, cpak, cpsk, cpday, elevenapi, rtapi, rtday, wpid, wppw) VALUES('{session['user']}', '{ssid}', '{sspw}', '{atid}', '{atpw}', '{cpid}', '{cpcode}', '{cpak}', '{cpsk}', '{cpday}', '{elevenapi}', '{rtapi}', '{rtday}', '{wpid}', '{wppw}');")
         flash('적용되었습니다.')
         return render_template(HTML_PATH_APISET, username=session['user'], userplan=session['userplan'], ssid=ssid, sspw=sspw, atid=atid, atpw=atpw, cpid=cpid, cpcode=cpcode, cpak=cpak, cpsk=cpsk, cpday=cpday, elevenapi=elevenapi, rtapi=rtapi, rtday=rtday, wpid=wpid, wppw=wppw)
 
@@ -145,15 +140,25 @@ def itemlist(listid):
         return render_template(HTML_PATH_INDEX)
 
     try:
-        productid = db.db_connector(f'''SELECT productid FROM userproduct WHERE userid="{session['user']}";''')
-        title = db.db_connector(f'''SELECT title FROM taobao WHERE userid="{productid}";''')
-        propprice = db.db_connector(f'''SELECT price FROM prop WHERE userid="{productid}";''')
-        taobaoimg = db.db_connector(f'''SELECT img FROM taobaoimg WHERE userid="{productid}";''')
-        propimg = db.db_connector(f'''SELECT img FROM prop WHERE userid="{productid}";''')
+        productid = db.db_connector(f'''SELECT productid FROM userproduct WHERE userid="{session['user']}";''').split()
+        title = []
+        prop = []
+        taoimg = []
+        descimg = []
+        for i in productid:
+            title.append(db.db_connector(f'''SELECT title FROM taobao WHERE productid="{i}";'''))
+            prop.append(db.db_connector(f'''SELECT propid, propname, price, img FROM prop WHERE productid="{i}";''').split())
+            taoimg.append(db.db_connector(f'''SELECT img FROM taobaoimg WHERE productid="{i}";''').split())
+            descimg.append(db.db_connector(f'''SELECT img FROM descimg WHERE productid="{i}";''').split())
+        print(productid)
+        print(title)
+        print(prop)
+        print(taoimg)
+        print(descimg)
     except:
         return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=False)
 
-    return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid, title=title, propprice=propprice, taobaoimg=taobaoimg, propimg=propimg)
+    return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid, title=title, prop=prop, taoimg=taoimg, descimg=descimg)
 
 @app.route('/itemlist', methods=['POST'])
 def itemlistup():
@@ -199,7 +204,7 @@ def itemscrap():
 
             if len(desc_imgurl) > 0:
                 for i, n in enumerate(desc_imgurl):
-                    get.imgpt(n, product_id, i) # 사진을 폴더에 저장
+                    get.imgdc(n, product_id, i) # 사진을 폴더에 저장
                     desc_img = "{}_{}".format(product_id, i)
                     desc_img = "../static/desc_img/"+desc_img+".png"
                     db.db_connector(f"INSERT INTO descimg(productid, img) VALUES('{product_id}', '{desc_img}');")
@@ -211,7 +216,15 @@ def itemscrap():
                 db.db_connector(f"REPLACE INTO prop(propid, productid, propname, price, orginalprice, img) VALUES('{n['properties']}', '{product_id}', '{prop_name}', '{n['price']}', '{n['orginal_price']}', '{prop_img}');")
             
             db.db_connector(f"REPLACE INTO taobao(productid, title, price, orginalprice) VALUES('{product_id}', '{title}', '{price}', '{orginal_price}');")
-            db.db_connector(f"INSERT INTO userproduct(userid, productid) VALUES('{session['user']}', '{product_id}');")
+
+            # 중복 검사 구문
+            try:
+                productid = db.db_connector(f'''SELECT productid FROM userproduct WHERE userid="{session['user']}";''').split()
+                if not "{}".format(product_id) in productid:
+                    db.db_connector(f"INSERT INTO userproduct(userid, productid) VALUES('{session['user']}', '{product_id}');")
+            except:
+                db.db_connector(f"INSERT INTO userproduct(userid, productid) VALUES('{session['user']}', '{product_id}');")
+
             flash('수집 성공')
 
             return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], isresult=True, successcount=1, failcount=0, count=1)
@@ -220,4 +233,4 @@ def itemscrap():
             return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], isresult=True, failcount=1, successcount=0, count=1)
 
 if __name__ == '__main__':
-    app.run(host="localhost", port="5555", debug=True, threaded=True)
+    app.run(host="localhost", port="55555", debug=True, threaded=True)

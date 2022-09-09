@@ -31,7 +31,7 @@
           <img class="dino_logo" src="../static/images/DINO.png" />
           <ul>
             <li>
-              <a href="home">
+              <a href="../home">
                 <div class="img_box">
                   <img src="../static/images/home.png" />
                 </div>
@@ -178,17 +178,17 @@
               </div>
             </div>
 
-            {% if isresult == True %}
+            {% if isitem == True %}
             <div class="basiclist_item">
               <div>
                 <form class="number_checkbox">
                   <input id="agree_1" type="checkbox" name="item" />
                   <label for="agree_1">
-                    <span>{{ productid }}</span>
+                    <span>{{ title }}</span>
                   </label>
                 </form>
                 <div class="item_thumbnail">
-                  <img src={{ taobaoimg }} />
+                  <img src="{{ taoimg }}" />
                 </div>
               </div>
               <div class="item_info">
@@ -293,7 +293,7 @@
                 <div class="item_list_title">
                   <ul>
                     <li>
-                      <p>{{ title }}</p>
+                      <p>{{ 가격 }}</p>
                       <span>45 / 50 Bytes</span>
                     </li>
                     <li>
