@@ -1,13 +1,15 @@
 from route import check, db, api, get, up
-from flask import Flask, session, request, render_template, flash
+from flask import Flask, session, request, render_template, flash, redirect, url_for
 from flask_bcrypt import Bcrypt
+from urllib.parse import urlparse, parse_qs
 import datetime
 import os
 import threading
 
 app = Flask(__name__)
 bcrypt = Bcrypt()
-app.config["SECRET_KEY"] = os.urandom(55)
+#app.config["SECRET_KEY"] = os.urandom(55)
+app.config["SECRET_KEY"] = f"dsfiji38jhjsdfjojidsfh832hdsifjiopasdkmmvcdikjuhed9w329hd"
 app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(minutes=60)
 
 HTML_PATH_HOME = './home.html'
@@ -18,6 +20,12 @@ HTML_PATH_ITEMLIST = './item_list.html'
 HTML_PATH_SCRAPSTART = './item_scraping_start.html'
 HTML_PATH_SCRAP = './item_scraping.html'
 HTML_PATH_MYPAGE = './mypage.html'
+
+def gettotalpage(m, n):
+    if m % n == 0:
+        return m // n
+    else:
+        return m // n + 1
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -150,30 +158,68 @@ def itemlist(listid):
             prop.append(db.db_connector(f'''SELECT propid, propname, price, img FROM prop WHERE productid="{i}";''').split())
             taoimg.append(db.db_connector(f'''SELECT img FROM taobaoimg WHERE productid="{i}";''').split())
             descimg.append(db.db_connector(f'''SELECT img FROM descimg WHERE productid="{i}";''').split())
-        print(productid)
-        print(title)
-        print(prop)
-        print(taoimg)
-        print(descimg)
+        
     except:
         return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=False)
 
-    return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid, title=title, prop=prop, taoimg=taoimg, descimg=descimg)
+    pagecount = gettotalpage(len(productid), 20)
+
+    # 없는 페이지를 접속 시 아이템을 반환하지 않음.
+    if pagecount < listid:
+        return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=False)
+
+    if not listid == 1:
+        startpage = listid * 20
+        endpage = listid * 21
+    else:
+        startpage = 0
+        endpage = 20
+
+    productid2 = []
+    title2 = []
+    prop2 = []
+    taoimg2 = []
+    descimg2 = []
+    
+    #for i in range(startpage, endpage):
+     #   productid2.append(productid[i])
+      #  title2.append(title[i])
+       # prop2.append(prop[i])
+        #taoimg2.append(taoimg[i])
+        #descimg2.append(descimg[i])
+    
+    return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid, title=title, prop=prop, taoimg=taoimg, descimg=descimg, listid=listid, endpage=endpage, startpage=startpage)
 
 @app.route('/itemlist', methods=['POST'])
 def itemlistup():
     if not check.login:
         return render_template(HTML_PATH_INDEX)
 
-    productid = db.db_connector(f'''SELECT productid FROM userproduct WHERE userid="{session['user']}";''')
-    title = db.db_connector(f'''SELECT title FROM taobao WHERE userid="{productid}";''')
-    propprice = db.db_connector(f'''SELECT price FROM prop WHERE userid="{productid}";''')
-    taobaoimg = db.db_connector(f'''SELECT img FROM taobaoimg WHERE userid="{productid}";''')
-    propimg = db.db_connector(f'''SELECT img FROM prop WHERE userid="{productid}";''')
-    # 데이터 스플릿 해서 셀레니움에 집어넣기
-    threading.Thread(target=up.upload, args=(1,1,title,propprice,1000,"test")).start()
+    productids = request.form.get('pid')
+    title = db.db_connector(f'''SELECT title FROM taobao WHERE productid="{productids}";''')
+    propname = db.db_connector(f'''SELECT propname FROM prop WHERE productid="{productids}";''').split()
+    propprice = db.db_connector(f'''SELECT price FROM prop WHERE productid="{productids}";''').split()
+    proppic = db.db_connector(f'''SELECT img FROM prop WHERE productid="{productids}";''').split()
+    propid = db.db_connector(f'''SELECT propid FROM prop WHERE productid="{productids}";''').split()
+
+    prop = []
+    for n, i in enumerate(propname):
+        # 문자열 리스트화
+        a = []
+        a.append(i)
+
+        # 옵션(리스트)에 옵션 이름(리스트) 넣기 - 2차원
+        prop.append(a)
+
+    for n, i in enumerate(prop):
+        prop[n].append(propprice[n])
+        prop[n].append(proppic[n])
+        prop[n].append(propid[n])
+        
+    threading.Thread(target=up.ssupload, args=(1,1,title,1000000,10000,"by dino", prop)).start()
     flash("업로드 완료되었습니다.")
-    # 셀레니움 작동 시키기
+
+    return redirect(url_for('itemlist', listid=1))
 
 @app.route('/itemscrap', methods=['GET', 'POST'])
 def itemscrap():
@@ -185,52 +231,61 @@ def itemscrap():
     elif request.method == 'POST':
         try:
             taobao = request.form.get('scrap')
-            result = api.taobao(taobao)
+            params = parse_qs(urlparse(taobao).query)
+            id = params['id']
+            success_count = 0
+            fail_count = 0
+            for id in id:
+                try:
+                    result = api.taobao(id)
 
-            product_id = str(result['item']['num_iid']) # 상품번호
-            title = result['item']['title'] # 상품제목
-            price = result['item']['price'] # 상품 가격(할인 적용)
-            orginal_price = result['item']['orginal_price'] # 상품 가격 (할인 미적용)
-            product_imgurl = result['item']['item_imgs'] # 상품 사진 링크
-            desc_imgurl = result['item']['desc_img'] # 상품 설명 사진, 없을 수 도 있음.
-            prop = result['item']['skus']['sku'] # 옵션
-            prop_imgurl = result['item']['prop_imgs']['prop_img'] # 옵션 사진
-            
-            for i, n in enumerate(product_imgurl):
-                get.imgpt(n['url'], product_id, i) # 사진을 폴더에 저장
-                product_img = "{}_{}".format(product_id, i)
-                product_img = "../static/taobao_img/"+product_img+".png"
-                db.db_connector(f"INSERT INTO taobaoimg(productid, img) VALUES('{product_id}', '{product_img}');")
+                    product_id = str(result['item']['num_iid']) # 상품번호
+                    title = result['item']['title'] # 상품제목
+                    price = result['item']['price'] # 상품 가격(할인 적용)
+                    orginal_price = result['item']['orginal_price'] # 상품 가격 (할인 미적용)
+                    product_imgurl = result['item']['item_imgs'] # 상품 사진 링크
+                    desc_imgurl = result['item']['desc_img'] # 상품 설명 사진, 없을 수 도 있음.
+                    prop = result['item']['skus']['sku'] # 옵션
+                    prop_imgurl = result['item']['prop_imgs']['prop_img'] # 옵션 사진
+                    
+                    for i, n in enumerate(product_imgurl):
+                        get.imgpt(n['url'], product_id, i) # 사진을 폴더에 저장
+                        product_img = "{}_{}".format(product_id, i)
+                        product_img = "../static/taobao_img/"+product_img+".png"
+                        db.db_connector(f"INSERT INTO taobaoimg(productid, img) VALUES('{product_id}', '{product_img}');")
 
-            if len(desc_imgurl) > 0:
-                for i, n in enumerate(desc_imgurl):
-                    get.imgdc(n, product_id, i) # 사진을 폴더에 저장
-                    desc_img = "{}_{}".format(product_id, i)
-                    desc_img = "../static/desc_img/"+desc_img+".png"
-                    db.db_connector(f"INSERT INTO descimg(productid, img) VALUES('{product_id}', '{desc_img}');")
-            
-            for i, n in enumerate(prop):
-                get.imgpp(prop_imgurl[i]['url'], n['properties']) # 사진을 폴더에 저장
-                prop_img = "../static/prop_img/"+n['properties']+".png"
-                prop_name = n['properties_name'].split(':')[3]
-                db.db_connector(f"REPLACE INTO prop(propid, productid, propname, price, orginalprice, img) VALUES('{n['properties']}', '{product_id}', '{prop_name}', '{n['price']}', '{n['orginal_price']}', '{prop_img}');")
-            
-            db.db_connector(f"REPLACE INTO taobao(productid, title, price, orginalprice) VALUES('{product_id}', '{title}', '{price}', '{orginal_price}');")
+                    if len(desc_imgurl) > 0:
+                        for i, n in enumerate(desc_imgurl):
+                            get.imgdc(n, product_id, i) # 사진을 폴더에 저장
+                            desc_img = "{}_{}".format(product_id, i)
+                            desc_img = "../static/desc_img/"+desc_img+".png"
+                            db.db_connector(f"INSERT INTO descimg(productid, img) VALUES('{product_id}', '{desc_img}');")
+                    
+                    for i, n in enumerate(prop):
+                        get.imgpp(prop_imgurl[i]['url'], n['properties']) # 사진을 폴더에 저장
+                        prop_img = "../static/prop_img/"+n['properties']+".png"
+                        prop_name = n['properties_name'].split(':')[3]
+                        db.db_connector(f"REPLACE INTO prop(propid, productid, propname, price, orginalprice, img) VALUES('{n['properties']}', '{product_id}', '{prop_name}', '{n['price']}', '{n['orginal_price']}', '{prop_img}');")
+                    
+                    db.db_connector(f"REPLACE INTO taobao(productid, title, price, orginalprice) VALUES('{product_id}', '{title}', '{price}', '{orginal_price}');")
 
-            # 중복 검사 구문
-            try:
-                productid = db.db_connector(f'''SELECT productid FROM userproduct WHERE userid="{session['user']}";''').split()
-                if not "{}".format(product_id) in productid:
-                    db.db_connector(f"INSERT INTO userproduct(userid, productid) VALUES('{session['user']}', '{product_id}');")
-            except:
-                db.db_connector(f"INSERT INTO userproduct(userid, productid) VALUES('{session['user']}', '{product_id}');")
+                    # 중복 검사 구문
+                    try:
+                        productid = db.db_connector(f'''SELECT productid FROM userproduct WHERE userid="{session['user']}";''').split()
+                        if not "{}".format(product_id) in productid:
+                            db.db_connector(f"INSERT INTO userproduct(userid, productid) VALUES('{session['user']}', '{product_id}');")
+                    except:
+                        db.db_connector(f"INSERT INTO userproduct(userid, productid) VALUES('{session['user']}', '{product_id}');")
 
-            flash('수집 성공')
+                    success_count += 1
+                except:
+                    fail_count += 1
 
-            return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], isresult=True, successcount=1, failcount=0, count=1)
+            flash('수집 완료')
+            return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], isresult=True, successcount=success_count, failcount=fail_count, count=success_count+fail_count)
         except:
-            flash("수집실패")
-            return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], isresult=True, failcount=1, successcount=0, count=1)
+            flash("수집 실패")
+            return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], isresult=True, failcount="오류", successcount="오류", count="오류")
 
 if __name__ == '__main__':
-    app.run(host="localhost", port="55555", debug=True, threaded=True)
+    app.run(host="0.0.0.0", port="5555", threaded=True)

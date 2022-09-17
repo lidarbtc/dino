@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <script>
+      alert("{{messages[-1]}}");
+    </script>
+    {% endif %} {% endwith %}
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta name="viewport" content="width=1600" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -39,7 +44,7 @@
               </a>
             </li>
             <li>
-              <a href="itemscrap">
+              <a href="../itemscrap">
                 <div class="img_box">
                   <img src="../static/images/product_collection.png" />
                 </div>
@@ -55,7 +60,7 @@
               </a>
             </li>
             <li>
-              <a href="mypage">
+              <a href="../mypage">
                 <div class="img_box">
                   <img src="../static/images/my_page.png" />
                 </div>
@@ -63,7 +68,7 @@
               </a>
             </li>
             <li>
-              <a href="api_setting">
+              <a href="../api_setting">
                 <div class="img_box">
                   <img src="../static/images/setting.png" />
                 </div>
@@ -178,17 +183,21 @@
               </div>
             </div>
 
-            {% if isitem == True %}
+            {% if isitem == True %} {% for i in title %}
             <div class="basiclist_item">
               <div>
                 <form class="number_checkbox">
                   <input id="agree_1" type="checkbox" name="item" />
                   <label for="agree_1">
-                    <span>{{ title }}</span>
+                    <span>{{ productid[loop.index0] }}</span>
                   </label>
                 </form>
                 <div class="item_thumbnail">
-                  <img src="{{ taoimg }}" />
+                  <img
+                    src="{{ taoimg[loop.index0][0] }}"
+                    width="150"
+                    height="150"
+                  />
                 </div>
               </div>
               <div class="item_info">
@@ -293,13 +302,8 @@
                 <div class="item_list_title">
                   <ul>
                     <li>
-                      <p>{{ 가격 }}</p>
+                      <p>{{ i }}</p>
                       <span>45 / 50 Bytes</span>
-                    </li>
-                    <li>
-                      <span class="fontcolor_gold"
-                        >44,280 ~ 62,200원 / ¥98 ~ 158</span
-                      >
                     </li>
                     <li class="adjustment">
                       <span class="option__modify"
@@ -368,9 +372,12 @@
                     </ul>
                   </div>
                   <div class="uplaod_btn">
+                    <form method="POST" action="/itemlist" enctype="multipart/form-data">
                     <div class="hover__btn">
                       <a href="#">업로드</a>
+                      <input type="submit" name="pid" value="{{ productid[loop.index0] }}">
                       <img src="../static/images/upload.png" />
+                    </form>
                       <ul class="upaload">
                         <li>
                           <a href="#">스마트스토어 상품 업로드</a>
@@ -399,233 +406,7 @@
                 </div>
               </div>
             </div>
-
-            <!-- <div class="basiclist_item">
-              <div>
-                <form class="number_checkbox">
-                  <input id="agree_2" type="checkbox" name="item" />
-                  <label for="agree_2">
-                    <span>No. 216851368413</span>
-                  </label>
-                </form>
-                <div class="item_thumbnail">
-                  <img src="../static/images/thumbnail2.png" />
-                </div>
-              </div>
-              <div class="item_info">
-                <div class="top">
-                  <ul>
-                    <li class="icon_bl">
-                      <div>
-                        <span class="no_category">카테고리 없음</span>
-                        <a href="#"
-                          ><img src="../static/images/category_naver_bl.png"
-                        /></a>
-                        <a href="#"
-                          ><img src="../static/images/category_11st_bl.png"
-                        /></a>
-                        <a href="#"
-                          ><img src="../static/images/category_gmarket_bl.png"
-                        /></a>
-                        <a href="#"
-                          ><img src="../static/images/category_auction_bl.png"
-                        /></a>
-                        <a href="#"
-                          ><img src="../static/images/category_coupang_bl.png"
-                        /></a>
-                        <a href="#"
-                          ><img src="../static/images/category_on_bl.png"
-                        /></a>
-                        <a href="#"
-                          ><img src="../static/images/category_wmp_bl.png"
-                        /></a>
-                        <a href="#"
-                          ><img src="../static/images/category_tmon_bl.png"
-                        /></a>
-                      </div>
-                      <div>
-                        <div class="moving__btn toggle__btn">
-                          <img src="../static/images/itemlist_link.png" />
-                          <ul class="moving">
-                            <li>
-                              <a href="#"> 타오바오 링크이동</a>
-                            </li>
-                            <li>
-                              <a href="#">스마트스토어 링크이동</a>
-                            </li>
-                            <li>
-                              <a href="#">11번가 링크이동</a>
-                            </li>
-                            <li>
-                              <a href="#">Gmarket 링크이동</a>
-                            </li>
-                            <li>
-                              <a href="#">Auction 링크이동</a>
-                            </li>
-                            <li>
-                              <a href="#">쿠팡 링크이동</a>
-                            </li>
-                            <li>
-                              <a href="#">롯데온 링크이동</a>
-                            </li>
-                            <li>
-                              <a href="#">위메프 링크이동</a>
-                            </li>
-                            <li>
-                              <a href="#">티몬 링크이동</a>
-                            </li>
-                          </ul>
-                        </div>
-
-                        <div class="delete__btn toggle__btn">
-                          <img src="../static/images/itemlist_trash.png" />
-
-                          <ul class="moving delete">
-                            <li>
-                              <a href="#">스마트스토어 상품 삭제</a>
-                            </li>
-                            <li>
-                              <a href="#">Gmarket 상품 삭제</a>
-                            </li>
-                            <li>
-                              <a href="#">Auction 상품 삭제</a>
-                            </li>
-                            <li>
-                              <a href="#">쿠팡 상품 삭제</a>
-                            </li>
-                            <li>
-                              <a href="#">롯데온 상품 삭제</a>
-                            </li>
-                            <li>
-                              <a href="#">위메프 상품 삭제</a>
-                            </li>
-                            <li>
-                              <a href="#">티몬 상품 삭제</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="item_list_title">
-                  <ul>
-                    <li>
-                      맥북거치대 접이식 휴대용 심플 리프팅 노트북 거치대<span
-                        >45 / 50 Bytes</span
-                      >
-                    </li>
-                    <li>
-                      <span class="fontcolor_gold"
-                        >44,280 ~ 62,200원 / ¥98 ~ 158</span
-                      >
-                    </li>
-                    <li class="adjustment">
-                      <span
-                        ><a href="#">상품 옵션 수정</a
-                        ><img src="../static/images/red_check.png"
-                      /></span>
-                      <span
-                        ><a href="#">상세페이지 수정</a
-                        ><img src="../static/images/red_check.png"
-                      /></span>
-                    </li>
-                  </ul>
-                </div>
-                <div class="item_list_homepageicon">
-                  <div>
-                    <ul>
-                      <li>
-                        <a href="#"
-                          ><img
-                            src="../static/images/naver_icon_bl.png"
-                          />네이버</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><img
-                            src="../static/images/11st_icon_bl.png"
-                          />11번가</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><img
-                            src="../static/images/gmarket_icon_bl.png"
-                          />Gmarket</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><img
-                            src="../static/images/auction_icon_bl.png"
-                          />Auction</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><img
-                            src="../static/images/coupang_icon_bl.png"
-                          />쿠팡</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><img
-                            src="../static/images/on_icon_bl.png"
-                          />롯데온</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><img
-                            src="../static/images/wemp_icon_bl.png"
-                          />위메프</a
-                        >
-                      </li>
-                      <li>
-                        <a href="#"
-                          ><img
-                            src="../static/images/tmon_icon_bl.png"
-                          />티몬</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="uplaod_btn">
-                    <div class="hover__btn">
-                      <a href="#">업로드</a>
-                      <img src="../static/images/upload.png" />
-                      <ul class="upaload">
-                        <li>
-                          <a href="#">스마트스토어 상품 업로드</a>
-                        </li>
-                        <li>
-                          <a href="#">Gmarket 상품 업로드</a>
-                        </li>
-                        <li>
-                          <a href="#">Auction 상품 업로드</a>
-                        </li>
-                        <li>
-                          <a href="#">쿠팡 상품 업로드</a>
-                        </li>
-                        <li>
-                          <a href="#">롯데온 상품 업로드</a>
-                        </li>
-                        <li>
-                          <a href="#">위메프 상품 업로드</a>
-                        </li>
-                        <li>
-                          <a href="#">티몬 상품 업로드</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-            {% else %}
+            {% endfor %} {% else %}
             <p>상품이 없습니다.</p>
             {% endif %}
 
@@ -668,9 +449,6 @@
         .popup__dim.modal {
           opacity: 1;
           z-index: 10;
-        }
-
-        .modal__popup {
         }
 
         .modal > p {

@@ -5,13 +5,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import FirefoxOptions
 from selenium.webdriver import ChromeOptions
+from selenium.webdriver.common.action_chains import ActionChains
 from route.wcaptcha import captcha_predict
 import time
 import random
 import os
 import requests
+import clipboard
 
-def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent):
+def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent, prop):
     driver = webdriver.Firefox()
     driver.maximize_window()
     driver.get("https://sell.smartstore.naver.com/#/home/about")
@@ -20,33 +22,45 @@ def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent):
     login_form = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[2]/div[2]/div/div[1]/div[2]/button[1]/span")))
     login_form.click()
 
-    username = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"login_id\"]")))
-    password = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"password\"]")))
+    username = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[1]/div/div/div[4]/div[1]/div/ul[1]/li[1]/input")))
+    password = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[1]/div/div/div[4]/div[1]/div/ul[1]/li[2]/input")))
 
     username.send_keys("jnk-global@naver.com")
     time.sleep(2)
     password.send_keys("45396861Wns!")
     time.sleep(1)
 
-    login = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[1]/div/div/div[4]/div[3]/button")))
+    login = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[1]/div/div/div[4]/div[1]/div/div/button")))
     login.click()
 
-    time.sleep(2)
+    time.sleep(3)
 
     driver.get("https://sell.smartstore.naver.com/#/products/create")
+
+
+    time.sleep(0.3)
+
+    cate = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[3]/div/div[2]/div/div/div/category-search/div[2]/div/div/div[1]/input")))
+    cate.send_keys("패")
+    time.sleep(1)
+    cate.send_keys(Keys.ENTER)
+
+    time.sleep(1)
 
     title = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[7]/div/div[2]/div/div/div/div/div/div/input")))
     title.send_keys(taotitle)
 
-    cate = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[3]/div/div[2]/div/div/div/category-search/div[2]/div/div/div[1]/input")))
-    cate.send_keys("패")
-    cate.send_keys(Keys.ENTER)
+    time.sleep(0.3)
 
     price = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"prd_price2\"]")))
     price.send_keys(taoprice)
 
+    time.sleep(0.3)
+
     qa = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"stock\"]")))
     qa.send_keys(taoqa)
+
+    time.sleep(0.3)
 
     driver.execute_script("window.scrollTo(0, 2200)") 
 
@@ -62,7 +76,7 @@ def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent):
 
     time.sleep(1)
 
-    uploadimg = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[12]/div/ng-form/div[2]/div/div[1]/div/ncp-photo-infra-image-upload/div/div[1]/div/ul/li/div/a")))
+    uploadimg = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[12]/div/div[2]/div/div[1]/div/div/ncp-photo-infra-image-upload/div/div[1]/div/ul/li/div/a")))
     uploadimg.click()
 
     time.sleep(1)
@@ -71,14 +85,81 @@ def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent):
     #taoimg1.click()
 
     taoimg = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@type='file']")))
-    taoimg.send_keys(r"/home/hj/문서/dino-20220823T080000Z-001/dino/a.png")
+    taoimg.send_keys(r"/home/hj/문서/GitHub/dino/a.png")
 
     time.sleep(2)
+
+    # 여기부터 옵션
+
+    options = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/div/div/div/a")))
+    options.click()
+
+    time.sleep(1)
+
+    options =  wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/fieldset/div/div/div[1]/div/div/div/div/label[1]")))
+    options.click()
+
+    time.sleep(0.3)
+
+    try:
+        options =  wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/fieldset/div/div/div[2]/div[1]/div/div[2]/label[1]")))
+        options.click()
+    except:
+        pass
+
+    driver.execute_script("window.scrollTo(0, 1550)") 
+
+    time.sleep(1)
+
+    options = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"choice_option_name0\"]")))
+    options.send_keys("옵션")
+
+    options = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"choice_option_value0\"]")))
+    options.send_keys("옵션")
+
+    options = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/fieldset/div/div/div[2]/div[2]/div[4]/div/div/div[2]/div[1]/a")))
+    options.click()
+
+    for n, i in enumerate(prop):
+        if not n == 0:
+            options = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/fieldset/div/div/div[2]/div[3]/div[2]/div[3]/div[2]/div[1]/a")))
+            options.click()
+            time.sleep(0.5)
+
+        oname = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/fieldset/div/div/div[2]/div[3]/div[2]/div[2]/div/div/div/div[3]/div[2]/div/div/div[{}]/div[2]".format(n+1))))
+        oname.click()
+        oname = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/fieldset/div/div/div[2]/div[3]/div[2]/div[2]/div/div/div/div[3]/div[2]/div/div/div[{}]/div[2]/div/input".format(n+1))))
+        oname.send_keys(i[0])
+
+        time.sleep(0.5)
+
+        oprice = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/fieldset/div/div/div[2]/div[3]/div[2]/div[2]/div/div/div/div[3]/div[2]/div/div/div[{}]/div[3]".format(n+1))))
+        oprice.click()
+        oprice = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/fieldset/div/div/div[2]/div[3]/div[2]/div[2]/div/div/div/div[3]/div[2]/div/div/div[{}]/div[3]/span/input".format(n+1))))
+        oprice.send_keys(0)
+
+        time.sleep(0.5)
+
+        ocount = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/fieldset/div/div/div[2]/div[3]/div[2]/div[2]/div/div/div/div[3]/div[2]/div/div/div[{}]/div[4]".format(n+1))))
+        ocount.click()
+        ocount = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[2]/fieldset/form/ng-include/ui-view[11]/div/fieldset/div/div/div[2]/div[3]/div[2]/div[2]/div/div/div/div[3]/div[2]/div/div/div[{}]/div[4]/span/input".format(n+1))))
+        ocount.send_keys(1000)
+
+        time.sleep(0.5)
+
+        driver.execute_script("window.scrollTo(0, 1700)") 
+
 
     upload = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/ui-view[1]/div[3]/div/div[3]/div/ui-view/div[3]/div[2]/div[1]/button[3]")))
     upload.click()
 
-    time.sleep(3)
+    try:
+        uploaddone = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/div[3]/div[1]/button[1]")))
+        uploaddone.click()
+    except:
+        pass
+
+    time.sleep(30)
 
     driver.close()
 
