@@ -226,34 +226,41 @@ def itemlistup():
         prop[n].append(proppic[n])
         prop[n].append(propid[n])
 
+    session_userid = session['user']
     # 네이버 스마트 스토어 구간 시작
-    naverid = db.db_connector(f'''SELECT ssid FROM apikey WHERE userid="{session['user']}";''')
-    naverpw = db.db_connector(f'''SELECT sspw FROM apikey WHERE userid="{session['user']}";''')
+    naverid = db.db_connector(f'''SELECT ssid FROM apikey WHERE userid="{session_userid}";''')
+    naverpw = db.db_connector(f'''SELECT sspw FROM apikey WHERE userid="{session_userid}";''')
     threading.Thread(target=up.ssupload, args=(naverid, naverpw, title, "by dino", prop)).start()
     # 네이버 스마트 스토어 구간 끝
 
     # 위메프 구간 시작
-    wpid = db.db_connector(f'''SELECT wpid FROM apikey WHERE userid="{session['user']}";''')
-    wppw = db.db_connector(f'''SELECT wppw FROM apikey WHERE userid="{session['user']}";''')
+    wpid = db.db_connector(f'''SELECT wpid FROM apikey WHERE userid="{session_userid}";''')
+    wppw = db.db_connector(f'''SELECT wppw FROM apikey WHERE userid="{session_userid}";''')
     threading.Thread().start()
     # 위메프 구간 끝
 
     # G마켓 & 옥션 구간 시작
-    atid = db.db_connector(f'''SELECT atid FROM apikey WHERE userid="{session['user']}";''')
-    atpw = db.db_connector(f'''SELECT atpw FROM apikey WHERE userid="{session['user']}";''')
+    atid = db.db_connector(f'''SELECT atid FROM apikey WHERE userid="{session_userid}";''')
+    atpw = db.db_connector(f'''SELECT atpw FROM apikey WHERE userid="{session_userid}";''')
     threading.Thread().start()
     # G마켓 & 옥션 구간 끝
 
     # 쿠팡 구간 시작
+    cpid = db.db_connector(f'''SELECT cpid FROM apikey WHERE userid="{session_userid}";''')
+    cpcode = db.db_connector(f'''SELECT cpcode FROM apikey WHERE userid="{session_userid}";''')
+    cpsk = db.db_connector(f'''SELECT cpsk FROM apikey WHERE userid="{session_userid}";''')
+    cpday = db.db_connector(f'''SELECT cpday FROM apikey WHERE userid="{session_userid}";''')
     threading.Thread().start()
     # 쿠팡 구간 끝
 
     # 11번가 구간 시작
-    elevenapi = db.db_connector(f'''SELECT elevenapi FROM apikey WHERE userid="{session['user']}";''')
+    elevenapi = db.db_connector(f'''SELECT elevenapi FROM apikey WHERE userid="{session_userid}";''')
     threading.Thread().start()
     # 11번가 구간 끝
 
     # 롯데온 구간 시작
+    rtapi = db.db_connector(f'''SELECT rtapi FROM apikey WHERE userid="{session_userid}";''')
+    rtday = db.db_connector(f'''SELECT rtday FROM apikey WHERE userid="{session_userid}";''')
     threading.Thread().start()
     # 롯데온 구간 끝
 
