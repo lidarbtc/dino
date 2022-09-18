@@ -1,6 +1,5 @@
-from math import prod
 from route import check, db, api, get, up
-from flask import Flask, session, request, render_template, flash, redirect, url_for
+from flask import Flask, session, request, render_template, flash, redirect, url_for, send_file
 from flask_bcrypt import Bcrypt
 from urllib.parse import urlparse, parse_qs
 import datetime
@@ -206,7 +205,7 @@ def itemlistup():
         return render_template(HTML_PATH_INDEX)
 
     productids = request.form.get('pid')
-    productids = request.form.get('aid')
+    listid = request.form.get('aid')
     title = db.db_connector(f'''SELECT title FROM taobao WHERE productid="{productids}";''')
     propname = db.db_connector(f'''SELECT propname FROM prop WHERE productid="{productids}";''').split()
     propprice = db.db_connector(f'''SELECT price FROM prop WHERE productid="{productids}";''').split()
@@ -226,11 +225,41 @@ def itemlistup():
         prop[n].append(propprice[n])
         prop[n].append(proppic[n])
         prop[n].append(propid[n])
-        
-    threading.Thread(target=up.ssupload, args=(1,1,title,1000000,10000,"by dino", prop)).start()
+
+    # 네이버 스마트 스토어 구간 시작
+    naverid = db.db_connector(f'''SELECT ssid FROM apikey WHERE userid="{session['user']}";''')
+    naverpw = db.db_connector(f'''SELECT sspw FROM apikey WHERE userid="{session['user']}";''')
+    threading.Thread(target=up.ssupload, args=(naverid, naverpw, title, "by dino", prop)).start()
+    # 네이버 스마트 스토어 구간 끝
+
+    # 위메프 구간 시작
+    wpid = db.db_connector(f'''SELECT wpid FROM apikey WHERE userid="{session['user']}";''')
+    wppw = db.db_connector(f'''SELECT wppw FROM apikey WHERE userid="{session['user']}";''')
+    threading.Thread().start()
+    # 위메프 구간 끝
+
+    # G마켓 & 옥션 구간 시작
+    atid = db.db_connector(f'''SELECT atid FROM apikey WHERE userid="{session['user']}";''')
+    atpw = db.db_connector(f'''SELECT atpw FROM apikey WHERE userid="{session['user']}";''')
+    threading.Thread().start()
+    # G마켓 & 옥션 구간 끝
+
+    # 쿠팡 구간 시작
+    threading.Thread().start()
+    # 쿠팡 구간 끝
+
+    # 11번가 구간 시작
+    elevenapi = db.db_connector(f'''SELECT elevenapi FROM apikey WHERE userid="{session['user']}";''')
+    threading.Thread().start()
+    # 11번가 구간 끝
+
+    # 롯데온 구간 시작
+    threading.Thread().start()
+    # 롯데온 구간 끝
+
     flash("업로드 완료되었습니다.")
 
-    return redirect(url_for('itemlist', listid=1))
+    return redirect(url_for('itemlist', listid=listid))
 
 @app.route('/itemscrap', methods=['GET', 'POST'])
 def itemscrap():
@@ -298,9 +327,9 @@ def itemscrap():
             flash("수집 실패")
             return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], isresult=True, failcount="오류", successcount="오류", count="오류")
 
-@app.route('/static/<path>/<listid>', methods=['GET'])
-def image():
-    return 0
+@app.route('/<path>/<imgname>', methods=['GET'])
+def image(path, imgname):
+    return send_file("./static/{}/{}".format(path, imgname), mimetype='image/png')
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port="5555", threaded=True)
+    app.run(host="127.0.0.1", port="5555", threaded=True)

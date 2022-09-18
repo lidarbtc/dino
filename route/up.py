@@ -5,13 +5,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import FirefoxOptions
 from selenium.webdriver import ChromeOptions
-from selenium.webdriver.common.action_chains import ActionChains
 from route.wcaptcha import captcha_predict
 import time
 import random
 import os
 import requests
-import clipboard
 
 def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent, prop):
     driver = webdriver.Firefox()
@@ -25,9 +23,9 @@ def ssupload(nid, pw, taotitle, taoprice, taoqa, taocontent, prop):
     username = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[1]/div/div/div[4]/div[1]/div/ul[1]/li[1]/input")))
     password = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[1]/div/div/div[4]/div[1]/div/ul[1]/li[2]/input")))
 
-    username.send_keys("jnk-global@naver.com")
+    username.send_keys(nid)
     time.sleep(2)
-    password.send_keys("45396861Wns!")
+    password.send_keys(pw)
     time.sleep(1)
 
     login = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div/div[1]/div/div/div[4]/div[1]/div/div/button")))
