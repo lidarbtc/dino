@@ -1,3 +1,4 @@
+from math import prod
 from route import check, db, api, get, up
 from flask import Flask, session, request, render_template, flash, redirect, url_for
 from flask_bcrypt import Bcrypt
@@ -22,7 +23,9 @@ HTML_PATH_SCRAP = './item_scraping.html'
 HTML_PATH_MYPAGE = './mypage.html'
 
 def gettotalpage(m, n):
-    if m % n == 0:
+    if m < n:
+        return 1
+    elif m % n == 0:
         return m // n
     else:
         return m // n + 1
@@ -100,7 +103,10 @@ def home():
 def mypage():
     if not check.login:
         return render_template(HTML_PATH_INDEX)
-    return render_template(HTML_PATH_MYPAGE, username=session['user'], userplan=session['userplan'])
+    if request.method == 'GET':
+        return render_template(HTML_PATH_MYPAGE, username=session['user'], userplan=session['userplan'])
+    elif request.method == 'POST':
+        return render_template(HTML_PATH_MYPAGE, username=session['user'], userplan=session['userplan'])
 
 @app.route('/api_setting', methods=['GET', 'POST']) 
 def apiset():
@@ -149,6 +155,7 @@ def itemlist(listid):
 
     try:
         productid = db.db_connector(f'''SELECT productid FROM userproduct WHERE userid="{session['user']}";''').split()
+        productid.reverse()
         title = []
         prop = []
         taoimg = []
@@ -170,7 +177,7 @@ def itemlist(listid):
 
     if not listid == 1:
         startpage = listid * 20
-        endpage = listid * 21
+        endpage = (listid+1) * 21
     else:
         startpage = 0
         endpage = 20
@@ -181,14 +188,17 @@ def itemlist(listid):
     taoimg2 = []
     descimg2 = []
     
-    #for i in range(startpage, endpage):
-     #   productid2.append(productid[i])
-      #  title2.append(title[i])
-       # prop2.append(prop[i])
-        #taoimg2.append(taoimg[i])
-        #descimg2.append(descimg[i])
-    
-    return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid, title=title, prop=prop, taoimg=taoimg, descimg=descimg, listid=listid, endpage=endpage, startpage=startpage)
+    try:
+        for i in range(startpage, endpage):
+            productid2.append(productid[i])
+            title2.append(title[i])
+            prop2.append(prop[i])
+            taoimg2.append(taoimg[i])
+            descimg2.append(descimg[i])
+    except:
+        return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid, title=title, prop=prop, taoimg=taoimg, descimg=descimg, listid=listid, endpage=2, startpage=1)
+
+    return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid2, title=title2, prop=prop2, taoimg=taoimg2, descimg=descimg2, listid=listid, endpage=endpage, startpage=startpage)
 
 @app.route('/itemlist', methods=['POST'])
 def itemlistup():
@@ -196,6 +206,7 @@ def itemlistup():
         return render_template(HTML_PATH_INDEX)
 
     productids = request.form.get('pid')
+    productids = request.form.get('aid')
     title = db.db_connector(f'''SELECT title FROM taobao WHERE productid="{productids}";''')
     propname = db.db_connector(f'''SELECT propname FROM prop WHERE productid="{productids}";''').split()
     propprice = db.db_connector(f'''SELECT price FROM prop WHERE productid="{productids}";''').split()
@@ -286,6 +297,10 @@ def itemscrap():
         except:
             flash("수집 실패")
             return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'], isresult=True, failcount="오류", successcount="오류", count="오류")
+
+@app.route('/static/<path>/<listid>', methods=['GET'])
+def image():
+    return 0
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port="5555", threaded=True)
