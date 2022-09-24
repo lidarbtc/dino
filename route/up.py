@@ -599,7 +599,74 @@ def gaupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
     driver.close()
 
 def cupload():
-    pass
+    payload = {
+        "sellerProductName": "향수",
+        "vendorId": "판매자 id",
+        "saleStartedAt": "시작일시",
+        "saleEndedAt": "종료일시",
+        "deliveryMethod": "AGENT_BUY", # 배송 타입
+        "deliveryCompanyCode": "택배사 코드",
+        "deliveryChargeType": "NOT_FREE", # 배송비 타입
+        "deliveryCharge": "2000", # 배송비
+        "freeShipOverAmount": "100000", # 무료 배송을 위한 최소 배송비
+        "deliveryChargeOnReturn": "2000", # 무료배송인 경우 환불할때 구매자가 지불하는 비용
+        "remoteAreaDeliverable": "N", # 도서산간 지역 배송 여부
+        "unionDeliveryType": "UNION_DELIVERY", # 묶음 배송 여부
+        "returnCenterCode": "NO_RETURN_CENTERCODE", # 반품지센터 코드
+        "returnChargeName": "0", # 반품지 명
+        "companyContactNumber": "0", # 반품지 연락처
+        "returnZipCode": "0", # 반품지 zip코드
+        "returnAddress": "0", # 반품지 주소
+        "returnAddressDetail": "0", # 반품지주소 상세
+        "returnCharge": "2000", # 반품 배송비
+        "outboundShippingPlaceCode": "출고지 주소코드", # 출고지 주소 코드 구매대행은 해외주소지입력
+        "vendorUserId": "사용자id", # 쿠팡 사용자 아이디
+        "requested": "false", # 자동 승인 요청 여부
+        "items": [
+            {
+                "itemName": "상품명", # 상품옵션명
+                "originalPrice": "정가", # 정가
+                "salePrice": "할인가", # 할인가
+                "maximumBuyCount": "9999", # 재고 수량
+                "maximumBuyForPerson": "0", # 1인당 최대 구매 가능 수량
+                "maximumBuyForPersonPeriod": "1", # 1인당 재구매 가능한 기간
+                "outboundShippingTimeDay": "1", # 출고 예정일
+                "unitCount": "0", # 단위수량, 상관없음
+                "adultOnly": "false", # 성인 전용 상품 여부
+                "taxType":  "FREE", # 과세 여부
+                "parallelImported": "NOT_PARALLEL_IMPORTED", # 병행 수입 여부
+                "overseasPurchased": "OVERSEAS_PURCHASED", # 구매 대행 여부
+                "pccNeeded": "true" # PCC 필수 입력 여부
+            }
+        ],
+        "images": [
+
+            {
+                "imageOrder": "0,1,2...", # 이미지 순서
+                "imageType": "REPRESENTATION", # 혹은 DETAIL 이미지 타입을 의미함
+                "vendorPath": "http" # 이미지 링크
+            }
+        ],
+        "attributes": [
+            {
+                "attributeTypeName": "타입명", # 옵션 타입명
+                "attributeValueName": "옵션명" # 옵션명
+            }
+        ],
+        "contents":[
+            {
+                "contentsType": "IMAGE", # 콘텐츠 타입
+                "contentDetails":[
+                    {
+                        "content": "내용", # 콘텐츠 내용
+                        "detailType": "IMAGE" # 세부타입
+                    }
+                ]
+            }
+        ]
+    }
+
+    print(requests.post("https://api-gateway.coupang.com/v2/providers/seller_api/apis/api/v1/marketplace/seller-products", json=payload).json())
 
 def lotupload():
     pass
