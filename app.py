@@ -1,3 +1,4 @@
+from math import prod
 from route import check, db, api, get, up
 from flask import Flask, session, request, render_template, flash, redirect, url_for, send_file
 from flask_bcrypt import Bcrypt
@@ -5,6 +6,7 @@ from urllib.parse import urlparse, parse_qs
 import datetime
 import os
 import threading
+import re
 
 app = Flask(__name__)
 bcrypt = Bcrypt()
@@ -107,7 +109,7 @@ def mypage():
     elif request.method == 'POST':
         return render_template(HTML_PATH_MYPAGE, username=session['user'], userplan=session['userplan'])
 
-@app.route('/api_setting', methods=['GET', 'POST']) 
+@app.route('/api_setting', methods=['GET', 'POST'])
 def apiset():
     if not check.login:
         return render_template(HTML_PATH_INDEX)
@@ -124,7 +126,7 @@ def apiset():
         cpid = data[4]; cpcode = data[5]; cpak = data[6]; cpsk = data[7]; cpday = data[8]
         elevenapi = data[9]
         rtapi = data[10]; rtday = data[11]
-        wpid = data[12]; wppw = data[13]
+        wpid = data[12]; wppw = data[13]    
         return render_template(HTML_PATH_APISET, username=session['user'], userplan=session['userplan'], ssid=ssid, sspw=sspw, atid=atid, atpw=atpw, cpid=cpid, cpcode=cpcode, cpak=cpak, cpsk=cpsk, cpday=cpday, elevenapi=elevenapi, rtapi=rtapi, rtday=rtday, wpid=wpid, wppw=wppw)
 
     elif request.method =='POST':
@@ -171,12 +173,12 @@ def itemlist(listid):
     pagecount = gettotalpage(len(productid), 20)
 
     # 없는 페이지를 접속 시 아이템을 반환하지 않음.
-    if pagecount < listid:
+    if pagecount-1 < listid:
         return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=False)
 
-    if not listid == 1:
-        startpage = listid * 20
-        endpage = (listid+1) * 21
+    if listid != 1:
+        startpage = (listid * 20) - 20
+        endpage = ((listid+1) * 20) + 1 - 20
     else:
         startpage = 0
         endpage = 20
@@ -195,7 +197,18 @@ def itemlist(listid):
             taoimg2.append(taoimg[i])
             descimg2.append(descimg[i])
     except:
-        return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid, title=title, prop=prop, taoimg=taoimg, descimg=descimg, listid=listid, endpage=2, startpage=1)
+        startpage = startpage // 20
+        print(startpage, endpage)
+
+        endpage = startpage + 1
+        return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid2, title=title2, prop=prop2, taoimg=taoimg2, descimg=descimg2, listid=listid, endpage=endpage, startpage=startpage)
+    
+    startpage = startpage // 20
+
+    if startpage == 0:
+        startpage = 1
+
+    endpage = startpage + 1
 
     return render_template(HTML_PATH_ITEMLIST, username=session['user'], userplan=session['userplan'], isitem=True, productid=productid2, title=title2, prop=prop2, taoimg=taoimg2, descimg=descimg2, listid=listid, endpage=endpage, startpage=startpage)
 
@@ -278,11 +291,13 @@ def itemscrap():
     elif request.method == 'POST':
         try:
             taobao = request.form.get('scrap')
-            params = parse_qs(urlparse(taobao).query)
-            id = params['id']
+            a = re.findall("\d{12}(?=&)|(?=\s)", taobao)
+
+            sample_list = [v for v in a if v]
+            
             success_count = 0
             fail_count = 0
-            for id in id:
+            for id in sample_list:
                 try:
                     result = api.taobao(id)
 
@@ -296,22 +311,30 @@ def itemscrap():
                     prop_imgurl = result['item']['prop_imgs']['prop_img'] # 옵션 사진
                     
                     for i, n in enumerate(product_imgurl):
-                        get.imgpt(n['url'], product_id, i) # 사진을 폴더에 저장
+                        threading.Thread(target=get.imgpt, args=(n["url"], product_id, i)).start() # 사진을 폴더에 저장
                         product_img = "{}_{}".format(product_id, i)
                         product_img = "../static/taobao_img/"+product_img+".png"
                         db.db_connector(f"INSERT INTO taobaoimg(productid, img) VALUES('{product_id}', '{product_img}');")
 
                     if len(desc_imgurl) > 0:
                         for i, n in enumerate(desc_imgurl):
-                            get.imgdc(n, product_id, i) # 사진을 폴더에 저장
+                            threading.Thread(target=get.imgdc, args=(n, product_id, i, product_id)).start() # 사진을 폴더에 저장
                             desc_img = "{}_{}".format(product_id, i)
                             desc_img = "../static/desc_img/"+desc_img+".png"
                             db.db_connector(f"INSERT INTO descimg(productid, img) VALUES('{product_id}', '{desc_img}');")
                     
                     for i, n in enumerate(prop):
-                        get.imgpp(prop_imgurl[i]['url'], n['properties']) # 사진을 폴더에 저장
-                        prop_img = "../static/prop_img/"+n['properties']+".png"
                         prop_name = n['properties_name'].split(':')[3]
+                        prop_filename = n['sku_id']
+                        try:
+                            threading.Thread(target=get.imgpp, args=(prop_imgurl[0]['url'], prop_filename, i)).start() # 사진을 폴더에 저장
+                        except:
+                            # 사진이 없는것
+                            try:
+                                threading.Thread(target=get.imgpp, args=(prop_imgurl[0]['url'], prop_filename, i)).start() # 사진을 폴더에 저장
+                            except:
+                                threading.Thread(target=get.imgpp, args=("https://picsum.photos/512", prop_filename, i)).start()
+                        prop_img = "../static/prop_img/"+str(prop_filename)+"_"+str(i)+".png"
                         db.db_connector(f"REPLACE INTO prop(propid, productid, propname, price, orginalprice, img) VALUES('{n['properties']}', '{product_id}', '{prop_name}', '{n['price']}', '{n['orginal_price']}', '{prop_img}');")
                     
                     db.db_connector(f"REPLACE INTO taobao(productid, title, price, orginalprice) VALUES('{product_id}', '{title}', '{price}', '{orginal_price}');")

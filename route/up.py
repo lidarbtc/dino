@@ -669,7 +669,273 @@ def cupload():
     print(requests.post("https://api-gateway.coupang.com/v2/providers/seller_api/apis/api/v1/marketplace/seller-products", json=payload).json())
 
 def lotupload():
-    pass
+    payload = {
+        "spdLst": [
+            {
+                "trGrpCd": "SR",
+                "trNo": "LO10xxxxx",
+                "lrtrNo": "",
+                "purTrNo": "",
+                "scatNo": "BC63080300",
+                "dcatLst": [
+                    {
+                        "mallCd": "LTON",
+                        "lfDcatNo": "FC11130203"
+                    }
+                ],
+                "epdNo": "A00000016",
+                "slTypCd": "GNRL",
+                "pdTypCd": "GNRL_GNRL",
+                "spdNm": "유성민_상품등록테스트",
+                "brdNo": "P306",
+                "mfcrNm": "테스트제조사",
+                "oplcCd": "KR",
+                "mdlNo": "테스트모델번호",
+                "barCd": "123123",
+                "tdfDvsCd": "01",
+                "slStrtDttm": "20200131000000",
+                "slEndDttm": "20221231235959",
+                "pdItmsInfo": {
+                    "pdItmsCd": "06",
+                    "pdItmsArtlLst": [
+                        {
+                            "pdArtlCd": "0020",
+                            "pdArtlCnts": "색상입력값"
+                        },
+                        {
+                            "pdArtlCd": "0060",
+                            "pdArtlCnts": "제조국입력"
+                        },
+                        {
+                            "pdArtlCd": "0070",
+                            "pdArtlCnts": "제조자입력"
+                        },
+                        {
+                            "pdArtlCd": "0080",
+                            "pdArtlCnts": "품질보증기준입력"
+                        },
+                        {
+                            "pdArtlCd": "0090",
+                            "pdArtlCnts": "책임자입력"
+                        },
+                        {
+                            "pdArtlCd": "0140",
+                            "pdArtlCnts": "크기입력"
+                        },
+                        {
+                            "pdArtlCd": "0160",
+                            "pdArtlCnts": "품명입력"
+                        },
+                        {
+                            "pdArtlCd": "0170",
+                            "pdArtlCnts": "주요 소재 입력"
+                        },
+                        {
+                            "pdArtlCd": "0180",
+                            "pdArtlCnts": "구성품입력"
+                        },
+                        {
+                            "pdArtlCd": "0190",
+                            "pdArtlCnts": "배송설치비용입력"
+                        },
+                        {
+                            "pdArtlCd": "0200",
+                            "pdArtlCnts": "Y"
+                        }
+                    ]
+                },
+                "sftyAthnLst": [
+                    {
+                        "sftyAthnTypCd": "LIFE_SUPS",
+                        "sftyAthnOrgnNm": "[방송통신기자재]적합등록",
+                        "sftyAthnNo": "1241251251"
+                    }
+                ],
+                "scatAttrLst": [
+                    {
+                        "optCd": "10594",
+                        "optNm": "커튼 재질",
+                        "optValCd": "104170",
+                        "optVal": "레이스"
+                    },
+                    {
+                        "optCd": "11330",
+                        "optNm": "패턴/프린트",
+                        "optValCd": "109638",
+                        "optVal": "단색(무지)"
+                    },
+                    {
+                        "optCd": "11582",
+                        "optNm": "캐노피 형태",
+                        "optValCd": "110544",
+                        "optVal": "사각형"
+                    }
+                ],
+                "purPsbQtyInfo": {
+                    "itmByMinPurYn": "Y",
+                    "itmByMinPurQty": 2,
+                    "itmByMaxPurPsbQtyYn": "Y",
+                    "maxPurQty": 1000
+                },
+                "ageLmtCd": "0",
+                "prstPsbYn": "N",
+                "prstPckPsbYn": "N",
+                "prstMsgPsbYn": "N",
+                "prcCmprEpsrYn": "N",
+                "bookCultCstDdctYn": "N",
+                "isbnCd": "",
+                "impDvsCd": "NONE",
+                "cshbltyPdYn": "N",
+                "gftvShpCd": "",
+                "dnDvPdYn": "N",
+                "toysPdYn": "N",
+                "intgSlPdNo": "",
+                "nmlPdYn": "N",
+                "prmmPdYn": "N",
+                "otltPdYn": "N",
+                "prmmInstPdYn": "N",
+                "brkHmapPkcpPsbYn": "N",
+                "mvCmcoCd": "",
+                "ctrtTypCd": "A",
+                "pdSzInfo": {
+                    "pdWdthSz": "100",
+                    "pdLnthSz": "200",
+                    "pdHghtSz": "300",
+                    "pckWdthSz": "110",
+                    "pckLnthSz": "210",
+                    "pckHghtSz": "310"
+                },
+                "pdStatCd": "NEW",
+                "dpYn": "Y",
+                "ltonDpYn": "Y",
+                "scKwdLst": [
+                    "검색키워드1",
+                    "검색키워드2",
+                    "검색키워드3"
+                ],
+                "pdFileLst": [
+                    {
+                        "fileTypCd": "PD",
+                        "fileDvsCd": "WDTH",
+                        "origFileNm": "https://image.ellotte.com/ellt.static.lotteeps.com/goods/img/95/53/78/07/10/1007785395_mast.jpg"
+                    },
+                    {
+                        "fileTypCd": "PD",
+                        "fileDvsCd": "VDO_URL",
+                        "origFileNm": "https://simage.lottemart.com/lim/static_root/images/prodimg/video/88094/3379/8809433791613.mp4"
+                    }
+                ],
+                "epnLst": [
+                    {
+                        "pdEpnTypCd": "DSCRP",
+                        "cnts": "<html>~~~</html>"
+                    }
+                ],
+                "cnclPsbYn": "Y",
+                "dmstOvsDvDvsCd": "DMST",
+                "pstkYn": "N",
+                "dvProcTypCd": "LO_ENTP",
+                "dvPdTypCd": "GNRL",
+                "sndBgtNday": "0",
+                "sndBgtDdInfo": {
+                    "nldySndCloseTm": "1300",
+                    "satSndPsbYn": "Y",
+                    "satSndCloseTm": "1200"
+                },
+                "dvRgsprGrpCd": "GN101",
+                "dvMnsCd": "DPCL",
+                "owhpNo": "115",
+                "hdcCd": "0001",
+                "dvCstPolNo": "335",
+                "adtnDvCstPolNo": "",
+                "cmbnDvPsbYn": "Y",
+                "dvCstStdQty": 0,
+                "qckDvUseYn": "Y",
+                "crdayDvPsbYn": "N",
+                "hpDdDvPsbYn": "N",
+                "saveTypCd": "NONE",
+                "shopCnvMsgPsbYn": "N",
+                "rgnLmtPdYn": "N",
+                "fprdDvPsbYn": "N",
+                "spcfSqncPdYn": "N",
+                "rtngPsbYn": "N",
+                "xchgPsbYn": "Y",
+                "echgPsbYn": "N",
+                "cmbnRtngPsbYn": "Y",
+                "rtngHdcCd": "0001",
+                "rtngRtrvPsbYn": "Y",
+                "rtrvTypCd": "ENTP_RTRV",
+                "rtrpNo": "115",
+                "stkMgtYn": "Y",
+                "sitmYn": "Y",
+                "optSrtLst": [
+                    {
+                        "optSeq": 1,
+                        "optNm": "색상",
+                        "optValSrtLst": [
+                            {
+                                "optValSeq": 1,
+                                "optVal": "맛있는초코색"
+                            }
+                        ]
+                    }
+                ],
+                "itmLst": [
+                    {
+                        "eitmNo": "ITM_1",
+                        "dpYn": "Y",
+                        "sortSeq": 1,
+                        "itmOptLst": [
+                            {
+                                "optNm": "색상",
+                                "optVal": "맛있는초코색"
+                            }
+                        ],
+                        "itmImgLst": [
+                            {
+                                "epsrTypCd": "IMG",
+                                "epsrTypDtlCd": "IMG_SQRE",
+                                "origImgFileNm": "https://image.ellotte.com/ellt.static.lotteeps.com/goods/img/95/53/78/07/10/1007785395_mast.jpg",
+                                "rprtImgYn": "Y"
+                            },
+                            {
+                                "epsrTypCd": "IMG",
+                                "epsrTypDtlCd": "IMG_SQRE",
+                                "origImgFileNm": "https://image.ellotte.com/ellt.static.lotteeps.com/goods/img/95/53/78/07/10/1007785395_mast.jpg",
+                                "rprtImgYn": "N"
+                            }
+                        ],
+                        "pdUtStdInfo": {
+                            "pdCapa": 10
+                        },
+                        "slPrc": 200000,
+                        "stkQty": 110
+                    }
+                ],
+                "adtnPdYn": "Y",
+                "adtnPdInfo": {
+                    "sortCd": "NAME_ASC",
+                    "adtnTypeLst": [
+                        {
+                            "adtnTypNm": "추가유형명입니다.",
+                            "epsrPrirRnkg": 11,
+                            "adtnPdLst": [
+                                {
+                                    "adtnPdNm": "이름입니다",
+                                    "epdNo": "YSM_ADTN_NUMBER",
+                                    "epsrPrirRnkg": 12,
+                                    "slPrc": 1700,
+                                    "stkQty": 1203,
+                                    "useYn": "Y"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+
 
 def oneupload():
     pass
