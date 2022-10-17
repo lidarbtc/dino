@@ -17,10 +17,9 @@ app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(minutes=60)
 HTML_PATH_HOME = './home.html'
 HTML_PATH_INDEX = './index.html'
 HTML_PATH_REGISTER = './signup.html'
-HTML_PATH_APISET = './api_setting.html'
-HTML_PATH_ITEMLIST = './item_list.html'
-HTML_PATH_SCRAPSTART = './item_scraping_start.html'
-HTML_PATH_SCRAP = './item_scraping.html'
+HTML_PATH_APISET = './API.html'
+HTML_PATH_ITEMLIST = './list.html'
+HTML_PATH_SCRAP = './collection.html'
 HTML_PATH_MYPAGE = './mypage.html'
 
 def gettotalpage(m, n):
