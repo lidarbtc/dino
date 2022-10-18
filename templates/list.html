@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
 
+<!-- {% if isitem == True %}
+<a href="#" class="prev"><span>&lt;</span></a>
+{% for i in range(startpage, endpage+1) %}
+{% if loop.index1 == listid %}
+<a href="#"><span class="active">{{ i }}</span></a>
+{% else %}
+<a href="/itemlist/{{ i }}"><span>{{ i }}</span></a>
+{% endif %}
+<a href="#" class="next"><span>&gt;</span></a>
+{% endfor %}
+{% else %}
+!
+{% endif %} -->
+
 <head>
   {% with messages = get_flashed_messages() %} {% if messages %}
   <script>
