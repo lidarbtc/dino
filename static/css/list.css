@@ -2,6 +2,12 @@
   color: #04b7cc;
 }
 
+.f_weight {
+    font-weight: 500;
+}
+
+.text-limit-overflow{font-weight: bold;color: #FF0000;}
+
 .main-content-area {
   height: 952px;
   width: 1166px;
@@ -223,10 +229,9 @@
 }
 .item-inner-edit-title span {
   background-color: transparent;
-  color: #aaaaaa;
   font-size: 10px;
   font-weight: 500;
-  margin-left: auto;
+  margin-left: 20px;
   margin-right: 16px;
   font-size: 12px;
   font-weight: 400;

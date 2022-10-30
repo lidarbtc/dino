@@ -361,4 +361,4 @@ def image(path, imgname):
     return send_file("./static/{}/{}".format(path, imgname), mimetype='image/png')
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port="5555", threaded=True)
+    app.run(host="127.0.0.1", port="5555", threaded=True, debug=True)

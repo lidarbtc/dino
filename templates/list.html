@@ -141,7 +141,15 @@
                   <a href="#"><img src="../static/images/search_icon.png" /></a>
                 </button>
               </form>
-              <span Class="show-once-at-five"><a href="#">5개씩 보기</a><img src="../static/images/down_black.png" /></span>
+              <span class="show-once-at-five">
+                  <a href="#">5개씩 보기</a>
+                  <img src="../static/images/down_black.png" />
+                <select id="pageSize">
+                  <option value="5">5개씩 보기</option>
+                  <option value="10">10개씩 보기</option>
+                  <option value="20">20개씩 보기</option>
+                </select>
+              </span>
             </div>
           </div>
         </div>
@@ -164,7 +172,7 @@
                 <div class="top">
                   <ul>
                     <li>
-                      <span class="title">디지털·가전 > 노트북액세서리 > 노트북받침대·쿨러</span>
+                      <span class="title"><a href="#">디지털·가전 > 노트북액세서리 > 노트북받침대·쿨러</a></span>
                       <div class="shopping-mall-img-container">
                         <a href="#"><img id="never" src="../static/images/never_activate.png" /></a>
                         <a href="#"><img id="tenonest" src="../static/images/11st_activate.png" /></a>
@@ -243,8 +251,8 @@
                 <div>{{ i }}</div>
               </div>
               <div class="item-inner-edit-title">
-                <p>맥북거치대 접이식 휴대용 심플 리프팅 노트북 거치대</p>
-                <span>45 / 50 Bytes</span>
+                <input type="text" placeholder="맥북거치대 접이식 휴대용 심플 리프팅 노트북 거치대" id="productName" value="">
+                <span class="f_weight" id="messageByte">0 / 50 Bytes</span>
               </div>
               <div class="flexxx">
                 <li class="adjustment">
@@ -322,11 +330,11 @@
               <div class="apply">적용</div>
             </div>
             <div class="option_price_setting_inner_container">
-              <div class="option_price_setting_inner_title">선택 옵션 최저가 지정</div>
+              <div class="option_price_setting_inner_title">선택 옵션 최저가 기준 설정</div>
               <div class="apply">적용</div>
             </div>
             <div class="option_price_setting_inner_container">
-              <div class="option_price_setting_inner_title">선택 옵션 최대가 설정</div>
+              <div class="option_price_setting_inner_title">선택 옵션 최대가 기준 설정</div>
               <div class="apply">적용</div>
             </div>
             <div class="reset">
@@ -370,12 +378,15 @@
             <input type="checkbox" name="" id="selectAll" />
             <label class="selectAll" for="selectAll">전체선택</label>
             <div>이미지</div>
+              <div>기본 순</div>
+{#            <div>가격 낮은 순</div>#}
+{#            <div>가격 높은 순</div>#}
             <div>옵션가격/옵션명</div>
           </div>
           <div class="item-comtainer">
             <div class="item-container-inner">
               <div class="item-container-left">
-                <input type="checkbox" name="" id="" />
+                <input type="checkbox" name="option" id="" />
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
@@ -384,12 +395,13 @@
                   <p>¥188.1</p>
                   <input type="text" placeholder="30,000" />
                 </div>
-                <input type="text" placeholder="A옵션" />
+                <input type="text" placeholder="A옵션" id="opt1"/>
+                <span class="f_weight" id="firstOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
-                <input type="checkbox" name="" id="" />
+                <input type="checkbox" name="option" id="" />
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
@@ -398,12 +410,13 @@
                   <p>¥188.1</p>
                   <input type="text" placeholder="30,000" />
                 </div>
-                <input type="text" placeholder="A옵션" />
+                <input type="text" placeholder="A옵션" id="opt2" />
+                <span class="f_weight" id="secondOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
-                <input type="checkbox" name="" id="" />
+                <input type="checkbox" name="option" id="" />
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
@@ -412,12 +425,13 @@
                   <p>¥188.1</p>
                   <input type="text" placeholder="30,000" />
                 </div>
-                <input type="text" placeholder="A옵션" />
+                <input type="text" placeholder="A옵션" id="opt3" />
+                <span class="f_weight" id="thirdOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
-                <input type="checkbox" name="" id="" />
+                <input type="checkbox" name="option" id="" />
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
@@ -426,12 +440,13 @@
                   <p>¥188.1</p>
                   <input type="text" placeholder="30,000" />
                 </div>
-                <input type="text" placeholder="A옵션" />
+                <input type="text" placeholder="A옵션" id="opt4" />
+                <span class="f_weight" id="fourthOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
-                <input type="checkbox" name="" id="" />
+                <input type="checkbox" name="option" id="" />
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
@@ -440,12 +455,13 @@
                   <p>¥188.1</p>
                   <input type="text" placeholder="30,000" />
                 </div>
-                <input type="text" placeholder="A옵션" />
+                <input type="text" placeholder="A옵션" id="opt5"/>
+                <span class="f_weight" id="fifthOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
-                <input type="checkbox" name="" id="" />
+                <input type="checkbox" name="option" id="" />
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
@@ -454,12 +470,13 @@
                   <p>¥188.1</p>
                   <input type="text" placeholder="30,000" />
                 </div>
-                <input type="text" placeholder="A옵션" />
+                <input type="text" placeholder="A옵션" id="opt6"/>
+                <span class="f_weight" id="sixthOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
-                <input type="checkbox" name="" id="" />
+                <input type="checkbox" name="option" id="" />
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
@@ -468,21 +485,23 @@
                   <p>¥188.1</p>
                   <input type="text" placeholder="30,000" />
                 </div>
-                <input type="text" placeholder="A옵션" />
+                <input type="text" placeholder="A옵션" id="opt7"/>
+                <span class="f_weight" id="seventhOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
-                <input type="checkbox" name="" id="" />
+                <input type="checkbox" name="option" id="" />
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
               <div class="item-container-right">
                 <div class="item-container-right-first-element">
                   <p>¥188.1</p>
-                  <input type="text" placeholder="30,000" />
+                  <input type="text" placeholder="30,000" id="opt8"/>
                 </div>
                 <input type="text" placeholder="A옵션" />
+                <span class="f_weight" id="eighthOption">0 / 50 Bytes</span>
               </div>
             </div>
           </div>
@@ -497,8 +516,8 @@
               </div>
             </div>
             <div class="confirm_cancel_btn">
-              <input type="submit" value="취소" class="cancel_btn" />
-              <input type="submit" value="저장" class="submit_btn" />
+                <button type="button" value="취소" class="cancel_btn" onclick="closeLayerPopup()">취소</button>
+                <button type="button" value="저장" class="submit_btn" onclick="closeLayerPopup()">저장</button>
             </div>
           </div>
         </div>
@@ -737,6 +756,51 @@
         });
       });
 
+      // 페이지 5개, 10개, 20개씩 보기
+      $("#pageSize").change(function (){
+          searchProductList(1);
+      });
+
+      // 글자수 체크
+      $("#productName").keyup(function (e) {
+          var content = $(this).val();
+          var maxLength = 50;
+
+          $("#messageByte").text(content.length + " / 50 Bytes");
+          if (content.length > maxLength) {
+              $("#messageByte").addClass("text-limit-overflow");
+          } else {
+              $("#messageByte").removeClass("text-limit-overflow");
+          }
+      });
+
+      id = ["opt1","opt2","opt3","opt4","opt5","opt6","opt7","opt8"]
+      id1 = ["firstOption","secondOption","thirdOption","fourthOption","fifthOption","sixthOption","seventhOption","eighthOption"]
+
+      $("#" + id).keyup(function (e) {
+          var content = $(this).val();
+          var maxLength = 50;
+
+          $("#" + id1).text(content.length + " / 50 Bytes");
+          if (content.length > maxLength) {
+              $("#" + id1).addClass("text-limit-overflow");
+          } else {
+              $("#" + id1).removeClass("text-limit-overflow");
+          }
+      });
+
+
+      $("#opt2").keyup(function (e) {
+          var content = $(this).val();
+          var maxLength = 50;
+
+          $("#secondOption").text(content.length + " / 50 Bytes");
+          if (content.length > maxLength) {
+              $("#secondOption").addClass("text-limit-overflow");
+          } else {
+              $("#secondOption").removeClass("text-limit-overflow");
+          }
+      });
       //상품페이지 수정 팝업
       $(".detail__modify").click(function () {
         $(".popup__dim").addClass("modal");
@@ -750,6 +814,19 @@
 
       //category 수정 팝업
       $(".category__modify").click(function () {
+        $(".popup__dim").addClass("modal");
+        $(".popup3").addClass("open");
+
+        $(".popup3 .popup__close,.popup3 .cancel_btn").click(function () {
+          $(".popup3").removeClass("open");
+          $(".popup__dim").removeClass("modal");
+        });
+      });
+
+      $("#productName").val()
+
+      //카테고리 수정 팝업
+      $(".item_list .item_info .title").click(function () {
         $(".popup__dim").addClass("modal");
         $(".popup3").addClass("open");
 
@@ -843,6 +920,21 @@
     $(".mainpage_edit_content > div ul li").click(function () {
       $(".mainpage_edit_content > div ul li").removeClass("active");
       $(this).addClass("active");
+    });
+
+    // 상품 옵션 취소 클릭시 창 닫기
+    function closeLayerPopup() {
+			$(".popup2 .popup__close,.popup2 .cancel_btn").hide();
+            this.reset();
+		}
+
+    // 상품 옵션 수정 - 전체 선택
+    var allChecked = $("#selectAll");
+    allChecked.change(function () {
+      var $this = $(this);
+      var checked = $this.prop("checked"); // checked 문자열 참조(true, false)
+      // console.log(checked);
+      $('input[name="option"]').prop("checked", checked);
     });
 
     var $sportAll = $("#Allcheck");
