@@ -1,4 +1,4 @@
-CREATE DATABASE dino default CHARACTER SET UTF8;
+
 use dino;
 
 --
