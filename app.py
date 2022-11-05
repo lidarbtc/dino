@@ -1,10 +1,7 @@
-from math import prod
 from route import check, db, api, get, up
 from flask import Flask, session, request, render_template, flash, redirect, url_for, send_file
 from flask_bcrypt import Bcrypt
-from urllib.parse import urlparse, parse_qs
 import datetime
-import os
 import threading
 import re
 
