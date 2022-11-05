@@ -35,6 +35,10 @@
   <script src="../static/js/jquery-3.3.1.min.js"></script>
   <script src="../static/js/common.js"></script>
   <script src="../static/js/main.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -251,14 +255,19 @@
                 <div>{{ i }}</div>
               </div>
               <div class="item-inner-edit-title">
+<<<<<<< Updated upstream
                 <input type="text" placeholder="맥북거치대 접이식 휴대용 심플 리프팅 노트북 거치대" id="productName" value="">
                 <span class="f_weight" id="messageByte">0 / 50 Bytes</span>
+=======
+                <input type="text" placeholder="맥북거치대 접이식 휴대용 심플 리프팅 노트북 거치대" id="productName" value="" name="productValue">
+                <span class="f_weight" id="messageByte" name="txtLength" value="">0 / 50 Bytes</span>
+>>>>>>> Stashed changes
               </div>
               <div class="flexxx">
                 <li class="adjustment">
                   <span class="option__modify"><a href="#">상품 옵션 수정</a><img src="../static/images/done.png" /></span>
                   <span class="detail__modify"><a href="#">상세페이지 수정</a><img src="../static/images/done.png" /></span>
-                  <span class="fontcolor_gold">배송비 120,000원</span>
+                  <span class="fontcolor_gold" name="firstTax" id="ftn" value="">배송비 120,000원</span>
                 </li>
                 <div class="item_list_homepageicon">
                   <div>
@@ -319,15 +328,18 @@
   <div class="popup popup1">
     <div class="popup__inner">
       <div class="popup__close"></div>
+      <div class="notice-box"> <span class="cancel_btn" id="close" onclick="detailProductPage()">&times;</span></div>
       <div class="option_change">
         <div class="option_price_setting_left">
           <div class="option_price_setting_upper">
             <div class="subtitle">옵션 가격 설정</div>
+          <form id=reset_form>
+
             <div class="option_price_setting_inner_container">
               <div class="option_price_setting_inner_title">배송비</div>
-              <input type="text" placeholder="10,0000원" />
+              <input type="text" placeholder="10,0000원" id="bill0" name="tax" value="">
               <div>원 추가하기</div>
-              <div class="apply">적용</div>
+              <div class="apply" onclick="changeTax()">적용</div>
             </div>
             <div class="option_price_setting_inner_container">
               <div class="option_price_setting_inner_title">선택 옵션 최저가 기준 설정</div>
@@ -337,38 +349,42 @@
               <div class="option_price_setting_inner_title">선택 옵션 최대가 기준 설정</div>
               <div class="apply">적용</div>
             </div>
+              </form>
             <div class="reset">
-              <div>가격 초기화</div>
+              <input type="button" id="btn_reset" value="가격 초기화"></button>
               <img src="../static/images/settings_backup_restore.png" alt="" />
             </div>
           </div>
           <div class="option_price_setting_downner">
             <div class="subtitle">옵션명 일괄수정</div>
+                        <form id=reset_form_option>
+
             <div class="option_price_setting_inner_container">
               <div class="option_price_setting_inner_title">글자 변경</div>
-              <input type="text" placeholder="가나다라마" />
+              <input type="text" placeholder="가나다라마" id="word1" name="prefix" value=""/>
               <p>></p>
-              <input type="text" placeholder="가나다라마" />
-              <div class="apply">적용</div>
+              <input type="text" placeholder="가나다라마" id="word2" name="suffix" value=""/>
+              <div class="apply" onclick="changeWord()">적용</div>
             </div>
             <div class="option_price_setting_inner_container">
               <div class="option_price_setting_inner_title">커스텀 글자 변경</div>
               <div class="customtext__modify">설정</div>
               <p></p>
-              <div class="apply">적용</div>
+             <button type="button" class="apply" onclick="changeCustomText()">적용</button>
             </div>
             <div class="option_price_setting_inner_container">
               <div class="option_price_setting_inner_title">특수문자 일괄 제거</div>
-              <div class="apply">적용</div>
+              <button type="button" class="apply" id="specialText" onclick="removeSpecial()">적용</button>
             </div>
             <div class="option_price_setting_inner_container">
               <div class="option_price_setting_inner_title">옵션명 일괄 변경</div>
-              <div id="bluetext">A~Z 옵션</div>
+              <div id="bluetext" onclick="changeNameLiteral()">A~Z 옵션</div>
               <p></p>
-              <div id="bluetext">1~N 옵션</div>
+              <div id="bluetext" onclick="changeNameNumber()">1~N 옵션</div>
             </div>
+              </form>
             <div class="reset">
-              <div>옵션명 초기화</div>
+              <input type="button" id="btn_reset_option" value="옵션명 초기화"></button>
               <img src="../static/images/settings_backup_restore.png" alt="" />
             </div>
           </div>
@@ -386,121 +402,187 @@
           <div class="item-comtainer">
             <div class="item-container-inner">
               <div class="item-container-left">
+<<<<<<< Updated upstream
                 <input type="checkbox" name="option" id="" />
+=======
+                <input type="checkbox" name="option" id="chk1" />
+>>>>>>> Stashed changes
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
               <div class="item-container-right">
                 <div class="item-container-right-first-element">
                   <p>¥188.1</p>
-                  <input type="text" placeholder="30,000" />
+                  <input type="text" placeholder="30,000" id="bill1" name="beforeTax" value=""/>
                 </div>
+<<<<<<< Updated upstream
                 <input type="text" placeholder="A옵션" id="opt1"/>
+=======
+                <input type="text" placeholder="A옵션" id="opt1" name="optionValue" value=""/>
+>>>>>>> Stashed changes
                 <span class="f_weight" id="firstOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
+<<<<<<< Updated upstream
                 <input type="checkbox" name="option" id="" />
+=======
+                <input type="checkbox" name="option" id="chk2" />
+>>>>>>> Stashed changes
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
               <div class="item-container-right">
                 <div class="item-container-right-first-element">
                   <p>¥188.1</p>
-                  <input type="text" placeholder="30,000" />
+                  <input type="text" placeholder="30,000" id="bill2" name="beforeTax" value=""/>
                 </div>
+<<<<<<< Updated upstream
                 <input type="text" placeholder="A옵션" id="opt2" />
+=======
+                <input type="text" placeholder="A옵션" id="opt2" name="optionValue" value=""/>
+>>>>>>> Stashed changes
                 <span class="f_weight" id="secondOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
+<<<<<<< Updated upstream
                 <input type="checkbox" name="option" id="" />
+=======
+                <input type="checkbox" name="option" id="chk3" />
+>>>>>>> Stashed changes
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
               <div class="item-container-right">
                 <div class="item-container-right-first-element">
                   <p>¥188.1</p>
-                  <input type="text" placeholder="30,000" />
+                  <input type="text" placeholder="30,000" id="bill3" name="beforeTax" value=""/>
                 </div>
+<<<<<<< Updated upstream
                 <input type="text" placeholder="A옵션" id="opt3" />
+=======
+                <input type="text" placeholder="A옵션" id="opt3" name="optionValue" value=""/>
+>>>>>>> Stashed changes
                 <span class="f_weight" id="thirdOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
+<<<<<<< Updated upstream
                 <input type="checkbox" name="option" id="" />
+=======
+                <input type="checkbox" name="option" id="chk4" />
+>>>>>>> Stashed changes
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
               <div class="item-container-right">
                 <div class="item-container-right-first-element">
                   <p>¥188.1</p>
-                  <input type="text" placeholder="30,000" />
+                  <input type="text" placeholder="30,000" id="bill4" name="beforeTax" value=""/>
                 </div>
+<<<<<<< Updated upstream
                 <input type="text" placeholder="A옵션" id="opt4" />
+=======
+                <input type="text" placeholder="A옵션" id="opt4" name="optionValue" value=""/>
+>>>>>>> Stashed changes
                 <span class="f_weight" id="fourthOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
+<<<<<<< Updated upstream
                 <input type="checkbox" name="option" id="" />
+=======
+                <input type="checkbox" name="option" id="chk5" />
+>>>>>>> Stashed changes
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
               <div class="item-container-right">
                 <div class="item-container-right-first-element">
                   <p>¥188.1</p>
-                  <input type="text" placeholder="30,000" />
+                  <input type="text" placeholder="30,000" id="bill5" name="beforeTax" value="">
                 </div>
+<<<<<<< Updated upstream
                 <input type="text" placeholder="A옵션" id="opt5"/>
+=======
+                <input type="text" placeholder="A옵션" id="opt5" name="optionValue" value=""/>
+>>>>>>> Stashed changes
                 <span class="f_weight" id="fifthOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
+<<<<<<< Updated upstream
                 <input type="checkbox" name="option" id="" />
+=======
+                <input type="checkbox" name="option" id="chk6" />
+>>>>>>> Stashed changes
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
               <div class="item-container-right">
                 <div class="item-container-right-first-element">
                   <p>¥188.1</p>
-                  <input type="text" placeholder="30,000" />
+                  <input type="text" placeholder="30,000" id="bill6" name="beforeTax" value=""/>
                 </div>
+<<<<<<< Updated upstream
                 <input type="text" placeholder="A옵션" id="opt6"/>
+=======
+                <input type="text" placeholder="A옵션" id="opt6" name="optionValue" value=""/>
+>>>>>>> Stashed changes
                 <span class="f_weight" id="sixthOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
+<<<<<<< Updated upstream
                 <input type="checkbox" name="option" id="" />
+=======
+                <input type="checkbox" name="option" id="chk7" />
+>>>>>>> Stashed changes
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
               <div class="item-container-right">
                 <div class="item-container-right-first-element">
                   <p>¥188.1</p>
-                  <input type="text" placeholder="30,000" />
+                  <input type="text" placeholder="30,000" id="bill7" name="beforeTax" value=""/>
                 </div>
+<<<<<<< Updated upstream
                 <input type="text" placeholder="A옵션" id="opt7"/>
+=======
+                <input type="text" placeholder="A옵션" id="opt7" name="optionValue" value=""/>
+>>>>>>> Stashed changes
                 <span class="f_weight" id="seventhOption">0 / 50 Bytes</span>
               </div>
             </div>
             <div class="item-container-inner">
               <div class="item-container-left">
+<<<<<<< Updated upstream
                 <input type="checkbox" name="option" id="" />
+=======
+                <input type="checkbox" name="option" id="chk8" />
+>>>>>>> Stashed changes
                 <div class="nth_of_item">1</div>
                 <img src="../static/images/sample_item.png" alt="" />
               </div>
               <div class="item-container-right">
                 <div class="item-container-right-first-element">
                   <p>¥188.1</p>
+<<<<<<< Updated upstream
                   <input type="text" placeholder="30,000" id="opt8"/>
                 </div>
                 <input type="text" placeholder="A옵션" />
+=======
+                  <input type="text" placeholder="30,000" id="bill8" name="beforeTax" value=""/>
+                </div>
+                <input type="text" placeholder="A옵션" id="opt8" name="optionValue" value=""/>
+>>>>>>> Stashed changes
                 <span class="f_weight" id="eighthOption">0 / 50 Bytes</span>
               </div>
             </div>
@@ -508,16 +590,21 @@
 
           <div>
             <div>
-              <button>번역 전</button>
-              <button>번역 후</button>
+              <button name="beforeTrans" onclick="toChinese()">번역 전</button>
+              <button name="afterTrans" onclick="toKorean()">번역 후</button>
               <div>
                 <input type="checkbox" name="" id="" />
                 <p>상세페이지 옵션이미지 적용</p>
               </div>
             </div>
             <div class="confirm_cancel_btn">
+<<<<<<< Updated upstream
                 <button type="button" value="취소" class="cancel_btn" onclick="closeLayerPopup()">취소</button>
                 <button type="button" value="저장" class="submit_btn" onclick="closeLayerPopup()">저장</button>
+=======
+                <button type="button" value="취소" class="cancel_btn" onclick="cancel()">취소</button>
+                <button type="button" value="저장" class="cancel_btn">저장</button>
+>>>>>>> Stashed changes
             </div>
           </div>
         </div>
@@ -530,9 +617,11 @@
   <div class="popup popup2">
     <div class="popup__inner">
       <div class="popup__close"></div>
+
       <div class="page_detail_edit">
-        <p>상세페이지 수정</p>
+      <div class="notice-box"> <span class="cancel_btn" id="close" onclick="detailPage()">&times;</span>  <p>상세페이지 수정</p> </div>
         <div class="page_detail_edit_inner">
+            <form id="detail_page">
           <label for="video_upload" class="video_upload">
             <input type="checkbox" value="" id="video_upload" />
             <p>동영상 업로드</p>
@@ -541,6 +630,7 @@
             <input type="checkbox" value="" id="mute" />
             <p>음소거</p>
           </label>
+                </form>
           <div class="img_edit">
             <img src="../static/images/img edit.png" alt="" />
             <p>이미지 편집</p>
@@ -549,11 +639,13 @@
             <img src="../static/images/ai.png" alt="" />
             <p>AI 번역</p>
           </div>
-          <div class="reset_btn">초기화</div>
+          <div class="reset_btn">
+              <input type="button" id="btn_reset_option_detail" value="초기화"></button>
+            </div>
         </div>
         <div class="confirm_cancel_btn">
-          <input type="submit" value="취소" class="cancel_btn" />
-          <input type="submit" value="확인" class="submit_btn" />
+            <button type="button" value="취소" class="cancel_btn" onclick="checkBtn()">취소</button>
+          <input type="submit" value="확인" class="cancel_btn" />
         </div>
       </div>
     </div>
@@ -566,7 +658,7 @@
       <div class="popup__close"></div>
 
       <div class="category_edit">
-        <p>카테고리수정</p>
+        <div class="notice-box"> <span class="cancel_btn" id="close" onclick="detailCloseCategory()">&times;</span> <p>카테고리수정</p></div>
         <div>
           <ul>
             <li>
@@ -574,7 +666,7 @@
                 <img src="../static/images/never_icon.png" />
                 <p>스마트스토어</p>
               </div>
-              <input type="text" name="category" class="text_field" placeholder="" />
+              <input type="text" name="category" class="text_field" placeholder="" id="autoInput1" value=""/>
             </li>
 
             <li>
@@ -582,7 +674,7 @@
                 <img src="../static/images/11st_icon.png" />
                 <p>11번가</p>
               </div>
-              <input type="text" name="category" class="text_field" placeholder="" />
+              <input type="text" name="category" class="text_field" placeholder="" id="autoInput2" value=""/>
             </li>
 
             <li>
@@ -590,7 +682,7 @@
                 <img src="../static/images/gmarket_icon.png" />
                 <p>지마켓</p>
               </div>
-              <input type="text" name="category" class="text_field" placeholder="" />
+              <input type="text" name="category" class="text_field" placeholder="" id="autoInput3" value=""/>
             </li>
 
             <li>
@@ -598,7 +690,7 @@
                 <img src="../static/images/action_icon.png" />
                 <p>옥션</p>
               </div>
-              <input type="text" name="category" class="text_field" placeholder="" />
+              <input type="text" name="category" class="text_field" placeholder="" id="autoInput4" value=""/>
             </li>
 
             <li>
@@ -606,7 +698,7 @@
                 <img src="../static/images/coupang_icon.png" />
                 <p>쿠팡</p>
               </div>
-              <input type="text" name="category" class="text_field" placeholder="" />
+              <input type="text" name="category" class="text_field" placeholder="" id="autoInput5" value=""/>
             </li>
 
             <li>
@@ -614,7 +706,7 @@
                 <img src="../static/images/lotteOn_icon.png" />
                 <p>롯데온</p>
               </div>
-              <input type="text" name="category" class="text_field" placeholder="" />
+              <input type="text" name="category" class="text_field" placeholder="" id="autoInput6" value=""/>
             </li>
 
             <li>
@@ -622,14 +714,14 @@
                 <img src="../static/images/wmp_icon.png" />
                 <p>위메프</p>
               </div>
-              <input type="text" name="category" class="text_field" placeholder="" />
+              <input type="text" name="category" class="text_field" placeholder="" id="autoInput7" value=""/>
             </li>
           </ul>
         </div>
 
         <div class="confirm_cancel_btn">
-          <input type="submit" value="취소" class="cancel_btn" />
-          <input type="submit" value="확인" class="submit_btn" />
+                <button type="button" value="취 소" class="cancel_btn" onclick="cancelCategory()">취소</button>
+          <input type="submit" value="저 장" class="cancel_btn" onclick="insertCategory()"/>
         </div>
       </div>
     </div>
@@ -641,10 +733,10 @@
     <div class="popup__inner">
       <div class="popup__close"></div>
       <div class="main_photo_edit">
-        <p>메인사진 수정</p>
+              <div class="notice-box"> <span class="cancel_btn" id="close" onclick="closeMainPic()">&times;</span><p>메인사진 수정</p> </div>
         <div class="line"></div>
         <div class="confirm_cancel_btn">
-          <input type="submit" value="취 소" class="cancel_btn" />
+          <button type="button" value="취 소" class="cancel_btn" onclick="cancelMainPic()">취소</button>
           <input type="submit" value="확 인" class="submit_btn" />
         </div>
       </div>
@@ -656,7 +748,7 @@
   <div class="popup popup5">
     <div class="popup__inner">
       <div class="popup__close"></div>
-
+      <div class="notice-box"> <span class="cancel_btn" id="close" onclick="closeCustom()">&times;</span> </div>
       <div class="custom_text_change">
         <p>커스텀 글자변경 설정</p>
         <!-- <a href="javascript:window.close();"> <img class="x_btn" src="../static/images/x_btn.png"></a> -->
@@ -664,79 +756,79 @@
           <ul>
             <li>
               <span>1.</span>
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom1" class="text_field" placeholder="" id="textF1" value=""/>
               <img src="../static/images/east.png" />
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom2" class="text_field" placeholder="" id="textF2" value=""/>
             </li>
 
             <li>
               <span>2.</span>
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom1" class="text_field" placeholder="" id="textF3" value=""/>
               <img src="../static/images/east.png" />
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom2" class="text_field" placeholder="" id="textF4" value=""/>
             </li>
 
             <li>
               <span>3.</span>
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom1" class="text_field" placeholder="" id="textF5" value=""/>
               <img src="../static/images/east.png" />
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom2" class="text_field" placeholder="" id="textF6" value=""/>
             </li>
 
             <li>
               <span>4.</span>
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom1" class="text_field" placeholder="" id="textF7" value=""/>
               <img src="../static/images/east.png" />
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom2" class="text_field" placeholder="" id="textF8" value=""/>
             </li>
 
             <li>
               <span>5.</span>
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom1" class="text_field" placeholder="" id="textF9" value=""/>
               <img src="../static/images/east.png" />
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom2" class="text_field" placeholder="" id="textF10" value=""/>
             </li>
 
             <li>
               <span>6.</span>
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom1" class="text_field" placeholder="" id="textF11" value=""/>
               <img src="../static/images/east.png" />
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom2" class="text_field" placeholder="" id="textF12" value=""/>
             </li>
 
             <li>
               <span>7.</span>
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom1" class="text_field" placeholder="" id="textF13" value=""/>
               <img src="../static/images/east.png" />
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom2" class="text_field" placeholder="" id="textF14" value=""/>
             </li>
 
             <li>
               <span>8.</span>
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom1" class="text_field" placeholder="" id="textF15" value=""/>
               <img src="../static/images/east.png" />
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom2" class="text_field" placeholder="" id="textF16" value=""/>
             </li>
 
             <li>
               <span>9.</span>
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom1" class="text_field" placeholder="" id="textF17" value=""/>
               <img src="../static/images/east.png" />
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom2" class="text_field" placeholder="" id="textF18" value=""/>
             </li>
 
             <li class="last_text">
               <span>10.</span>
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom1" class="text_field" placeholder="" id="textF19" value=""/>
               <img src="../static/images/east.png" />
-              <input type="text" name="text_custom" class="text_field" placeholder="" />
+              <input type="text" name="text_custom2" class="text_field" placeholder="" id="textF20" value=""/>
             </li>
           </ul>
         </div>
 
         <div class="confirm_cancel_btn">
-          <input type="submit" value="취 소" class="cancel_btn" />
-          <input type="submit" value="확 인" class="submit_btn" />
+                <button type="button" value="취 소" class="cancel_btn" onclick="cancelCustom()">취소</button>
+          <input type="submit" value="저 장" class="cancel_btn"/>
         </div>
       </div>
     </div>
@@ -745,6 +837,220 @@
 
   <script>
     const modal_popup = function () {
+
+        // 임시 중국 옵션명(한자로 대체)
+        $('button[name=beforeTrans]').attr('value', "中國");
+
+        // 임시 중국 옵션명(한자로 대체)
+        $('button[name=afterTrans]').attr('value', "옵션");
+
+        // 임시 배송비 삽입
+        $('input[name=tax]').attr('value', "100,000");
+
+        // 임시 카테고리 값 삽입
+        $('input[name=category]').attr('value', "디지털/가전 > 노트북 액세서리 > 노트북 받침대 / 쿨러");
+
+        // 임시 커스텀 글자 삽입
+        $('input[name=text_custom1]').attr('value', "*");
+
+        // 임시 커스텀 글자 삽입 2
+        $('input[name=text_custom2]').attr('value',"x");
+
+        // 임시 옵션 값 삽입
+        $('input[name=optionValue]').attr('value', "임시**테스트()데이터中國옵션!!");
+
+        // 배송비 반영
+        var result = $('input[name=tax]').val()
+        console.log(result)
+        $('span[name=firstTax]').text("배송비 " + result + "원")
+
+        // 임시 글자 prefix
+        $('input[name=prefix]').attr('value', "임")
+
+        // 임시 글자 suffix
+        $('input[name=suffix]').attr('value', "상")
+
+        // 임시 초기값 삽입
+        $('input[name=beforeTax]').attr('value', "30,000")
+
+
+
+        // 자동 완성 기능 - id 별로 각각 분리해둠.
+        $(function() {
+        var searchSource = ['디지털/가전 > 노트북 액세서리 > 노트북 받침대 / 쿨러', '생활/건강 > 공구 > 원예 공구 > 농기계']; // 배열 생성
+        var count = [1,2,3,4,5,6,7]
+
+        $("#autoInput1").autocomplete({ // autocomplete 구현 시작부
+            source : searchSource, //source 는 자동완성의 대상
+            select : function(event, ui) { // item 선택 시 이벤트
+                console.log(ui.item);
+            },
+            focus : function(event, ui) { // 포커스 시 이벤트
+                return false;
+            },
+            minLength : 1, // 최소 글자 수
+            autoFocus : true, // true로 설정 시 메뉴가 표시 될 때, 첫 번째 항목에 자동으로 초점이 맞춰짐
+            classes : { // 위젯 요소에 추가 할 클래스를 지정
+                'ui-autocomplete' : 'highlight'
+            },
+            delay : 500, // 입력창에 글자가 써지고 나서 autocomplete 이벤트 발생될 떄 까지 지연 시간(ms)
+            disable : false, // 해당 값 true 시, 자동완성 기능 꺼짐
+            position : { my : 'right top', at : 'right bottom'}, // 제안 메뉴의 위치를 식별
+            close : function(event) { // 자동완성 창 닫아질 때의 이벤트
+                console.log(event);
+            }
+        });
+
+        $("#autoInput2").autocomplete({ // autocomplete 구현 시작부
+            source : searchSource, //source 는 자동완성의 대상
+            select : function(event, ui) { // item 선택 시 이벤트
+                console.log(ui.item);
+            },
+            focus : function(event, ui) { // 포커스 시 이벤트
+                return false;
+            },
+            minLength : 1, // 최소 글자 수
+            autoFocus : true, // true로 설정 시 메뉴가 표시 될 때, 첫 번째 항목에 자동으로 초점이 맞춰짐
+            classes : { // 위젯 요소에 추가 할 클래스를 지정
+                'ui-autocomplete' : 'highlight'
+            },
+            delay : 500, // 입력창에 글자가 써지고 나서 autocomplete 이벤트 발생될 떄 까지 지연 시간(ms)
+            disable : false, // 해당 값 true 시, 자동완성 기능 꺼짐
+            position : { my : 'right top', at : 'right bottom'}, // 제안 메뉴의 위치를 식별
+            close : function(event) { // 자동완성 창 닫아질 때의 이벤트
+                console.log(event);
+            }
+        });
+
+        $("#autoInput3").autocomplete({ // autocomplete 구현 시작부
+            source : searchSource, //source 는 자동완성의 대상
+            select : function(event, ui) { // item 선택 시 이벤트
+                console.log(ui.item);
+            },
+            focus : function(event, ui) { // 포커스 시 이벤트
+                return false;
+            },
+            minLength : 1, // 최소 글자 수
+            autoFocus : true, // true로 설정 시 메뉴가 표시 될 때, 첫 번째 항목에 자동으로 초점이 맞춰짐
+            classes : { // 위젯 요소에 추가 할 클래스를 지정
+                'ui-autocomplete' : 'highlight'
+            },
+            delay : 500, // 입력창에 글자가 써지고 나서 autocomplete 이벤트 발생될 떄 까지 지연 시간(ms)
+            disable : false, // 해당 값 true 시, 자동완성 기능 꺼짐
+            position : { my : 'right top', at : 'right bottom'}, // 제안 메뉴의 위치를 식별
+            close : function(event) { // 자동완성 창 닫아질 때의 이벤트
+                console.log(event);
+            }
+        });
+
+        $("#autoInput4").autocomplete({ // autocomplete 구현 시작부
+            source : searchSource, //source 는 자동완성의 대상
+            select : function(event, ui) { // item 선택 시 이벤트
+                console.log(ui.item);
+            },
+            focus : function(event, ui) { // 포커스 시 이벤트
+                return false;
+            },
+            minLength : 1, // 최소 글자 수
+            autoFocus : true, // true로 설정 시 메뉴가 표시 될 때, 첫 번째 항목에 자동으로 초점이 맞춰짐
+            classes : { // 위젯 요소에 추가 할 클래스를 지정
+                'ui-autocomplete' : 'highlight'
+            },
+            delay : 500, // 입력창에 글자가 써지고 나서 autocomplete 이벤트 발생될 떄 까지 지연 시간(ms)
+            disable : false, // 해당 값 true 시, 자동완성 기능 꺼짐
+            position : { my : 'right top', at : 'right bottom'}, // 제안 메뉴의 위치를 식별
+            close : function(event) { // 자동완성 창 닫아질 때의 이벤트
+                console.log(event);
+            }
+        });
+
+        $("#autoInput5").autocomplete({ // autocomplete 구현 시작부
+            source : searchSource, //source 는 자동완성의 대상
+            select : function(event, ui) { // item 선택 시 이벤트
+                console.log(ui.item);
+            },
+            focus : function(event, ui) { // 포커스 시 이벤트
+                return false;
+            },
+            minLength : 1, // 최소 글자 수
+            autoFocus : true, // true로 설정 시 메뉴가 표시 될 때, 첫 번째 항목에 자동으로 초점이 맞춰짐
+            classes : { // 위젯 요소에 추가 할 클래스를 지정
+                'ui-autocomplete' : 'highlight'
+            },
+            delay : 500, // 입력창에 글자가 써지고 나서 autocomplete 이벤트 발생될 떄 까지 지연 시간(ms)
+            disable : false, // 해당 값 true 시, 자동완성 기능 꺼짐
+            position : { my : 'right top', at : 'right bottom'}, // 제안 메뉴의 위치를 식별
+            close : function(event) { // 자동완성 창 닫아질 때의 이벤트
+                console.log(event);
+            }
+        });
+
+        $("#autoInput6").autocomplete({ // autocomplete 구현 시작부
+            source : searchSource, //source 는 자동완성의 대상
+            select : function(event, ui) { // item 선택 시 이벤트
+                console.log(ui.item);
+            },
+            focus : function(event, ui) { // 포커스 시 이벤트
+                return false;
+            },
+            minLength : 1, // 최소 글자 수
+            autoFocus : true, // true로 설정 시 메뉴가 표시 될 때, 첫 번째 항목에 자동으로 초점이 맞춰짐
+            classes : { // 위젯 요소에 추가 할 클래스를 지정
+                'ui-autocomplete' : 'highlight'
+            },
+            delay : 500, // 입력창에 글자가 써지고 나서 autocomplete 이벤트 발생될 떄 까지 지연 시간(ms)
+            disable : false, // 해당 값 true 시, 자동완성 기능 꺼짐
+            position : { my : 'right top', at : 'right bottom'}, // 제안 메뉴의 위치를 식별
+            close : function(event) { // 자동완성 창 닫아질 때의 이벤트
+                console.log(event);
+            }
+        });
+
+        $("#autoInput7").autocomplete({ // autocomplete 구현 시작부
+            source : searchSource, //source 는 자동완성의 대상
+            select : function(event, ui) { // item 선택 시 이벤트
+                console.log(ui.item);
+            },
+            focus : function(event, ui) { // 포커스 시 이벤트
+                return false;
+            },
+            minLength : 1, // 최소 글자 수
+            autoFocus : true, // true로 설정 시 메뉴가 표시 될 때, 첫 번째 항목에 자동으로 초점이 맞춰짐
+            classes : { // 위젯 요소에 추가 할 클래스를 지정
+                'ui-autocomplete' : 'highlight'
+            },
+            delay : 500, // 입력창에 글자가 써지고 나서 autocomplete 이벤트 발생될 떄 까지 지연 시간(ms)
+            disable : false, // 해당 값 true 시, 자동완성 기능 꺼짐
+            position : { my : 'right top', at : 'right bottom'}, // 제안 메뉴의 위치를 식별
+            close : function(event) { // 자동완성 창 닫아질 때의 이벤트
+                console.log(event);
+            }
+        });
+    });
+
+      // 상세 페이지 초기화 버튼 기능
+      $("#btn_reset_option_detail").click(
+
+          function() {
+          $("#detail_page").each(function() {
+            this.reset();
+          });
+      })  ;
+
+      // 가격 초기화 버튼 기능
+      $("#btn_reset").click(function() {
+          $("#reset_form").each(function() {
+              this.reset();
+          });
+      });
+
+      // 옵션명 초기화 버튼 기능
+      $("#btn_reset_option").click(function() {
+          $("#reset_form_option").each(function() {
+              this.reset();
+          });
+      }) ;
+
       //상품옵션 수정 팝업
       $(".option__modify").click(function () {
         $(".popup__dim").addClass("modal");
@@ -761,6 +1067,7 @@
           searchProductList(1);
       });
 
+<<<<<<< Updated upstream
       // 글자수 체크
       $("#productName").keyup(function (e) {
           var content = $(this).val();
@@ -771,6 +1078,18 @@
               $("#messageByte").addClass("text-limit-overflow");
           } else {
               $("#messageByte").removeClass("text-limit-overflow");
+=======
+      // 글자수 체크 - 전 div 임시 체크
+      $('input[name=productValue]').keyup(function (e) {
+          var content = $(this).val();
+          var maxLength = 50;
+
+          $('span[name=txtLength]').text(content.length + " / 50 Bytes");
+          if (content.length > maxLength) {
+              $('span[name=txtLength]').addClass("text-limit-overflow");
+          } else {
+              $('span[name=txtLength]').removeClass("text-limit-overflow");
+>>>>>>> Stashed changes
           }
       });
 
@@ -924,9 +1243,15 @@
 
     // 상품 옵션 취소 클릭시 창 닫기
     function closeLayerPopup() {
+<<<<<<< Updated upstream
 			$(".popup2 .popup__close,.popup2 .cancel_btn").hide();
             this.reset();
 		}
+=======
+         $(".popup2 .popup__close,.popup2 .cancel_btn").hide();
+            this.reset();
+      }
+>>>>>>> Stashed changes
 
     // 상품 옵션 수정 - 전체 선택
     var allChecked = $("#selectAll");
