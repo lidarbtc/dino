@@ -13,9 +13,6 @@ for (let i = 0; i < 5; i++) {
 $(".img-setting-inner input[type=file]").on("change", function () {
   var fileName = $(this).val();
   $(this).next().val(fileName);
-<<<<<<< Updated upstream
-});
-=======
 });
 
 // 취소 버튼 클릭
@@ -271,4 +268,3 @@ function toKorean() {
 }
 
 
->>>>>>> Stashed changes
