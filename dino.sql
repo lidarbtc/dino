@@ -1,5 +1,5 @@
--- CREATE DATABASE dino default CHARACTER SET UTF8;
--- use dino;
+CREATE DATABASE dino default CHARACTER SET UTF8;
+use dino;
 
 --
 -- Table structure for table `apikey`
@@ -205,3 +205,6 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2022-10-18 18:07:46
+CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'abcd1234';
+grant all privileges on dino.* to 'dbuser'@'localhost';
+flush privileges;
