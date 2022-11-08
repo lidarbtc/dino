@@ -10,7 +10,7 @@ from route.wcaptcha.captcha_cnn_model import CNN
 def main(cname):
     cnn = CNN()
     cnn.eval()
-    cnn.load_state_dict(torch.load('./wcaptcha/model.pkl'))
+    cnn.load_state_dict(torch.load('./route/wcaptcha/model.pkl'))
     #print("load cnn net.")
     ccname = cname
 

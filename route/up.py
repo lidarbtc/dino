@@ -179,7 +179,7 @@ def wpupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
 
     try:
         while True:
-            with open('./wcaptcha/dataset/predict/{}.png'.format(rd), 'wb') as file:
+            with open('./route/wcaptcha/dataset/predict/{}.png'.format(rd), 'wb') as file:
                 file.write(driver.find_element(By.XPATH, '//*[@id="_captchaImage"]').screenshot_as_png)
             try:
                 captcha = captcha_predict.main(rd)
@@ -338,9 +338,9 @@ def gaupload(wid, pw, taotitle, taoprice, taoqa, taocontent):
     username = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"SiteId\"]")))
     password = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id=\"SitePassword\"]")))
 
-    username.send_keys("junii0131")
+    username.send_keys(wid)
     time.sleep(1)
-    password.send_keys("45396861Wns!")
+    password.send_keys(pw)
     time.sleep(1)
  
     login = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/div[2]/div/div/div/div/div[2]/div/div[1]/div/form/fieldset/div[2]/a/img")))

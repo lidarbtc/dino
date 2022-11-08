@@ -18,15 +18,7 @@ HTML_PATH_APISET = './API.html'
 HTML_PATH_ITEMLIST = './list.html'
 HTML_PATH_SCRAP = './collection.html'
 HTML_PATH_MYPAGE = './mypage.html'
-
-
-def gettotalpage(m, n):
-    if m < n:
-        return 1
-    elif m % n == 0:
-        return m // n
-    else:
-        return m // n + 1
+HTML_PATH_ADMIN = './admin.html'
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -166,6 +158,15 @@ def apiset():
         return render_template(HTML_PATH_APISET, username=session['user'], userplan=session['userplan'], ssid=ssid,
                                sspw=sspw, atid=atid, atpw=atpw, cpid=cpid, cpcode=cpcode, cpak=cpak, cpsk=cpsk,
                                cpday=cpday, elevenapi=elevenapi, rtapi=rtapi, rtday=rtday, wpid=wpid, wppw=wppw)
+
+
+def gettotalpage(m, n):
+    if m < n:
+        return 1
+    elif m % n == 0:
+        return m // n
+    else:
+        return m // n + 1
 
 
 @app.route('/itemlist/<int:listid>', methods=['GET'])
@@ -396,6 +397,22 @@ def itemscrap():
             flash("수집 실패")
             return render_template(HTML_PATH_SCRAP, username=session['user'], userplan=session['userplan'],
                                    isresult=True, failcount="오류", successcount="오류", count="오류")
+
+
+@app.route('/dino', methods=['GET', 'POST'])
+def admin():
+    if request.method == 'GET':
+        if check.login() and session['user'] == "admin":
+            # 유저 가입 수
+            user = db.db_connector(f'''SELECT userid FROM usertbl;''')
+            usercount = len(user)
+
+            return render_template(HTML_PATH_ADMIN, username=session['user'], userplan=session['userplan'], usercount=usercount)
+        else:
+            return render_template(HTML_PATH_INDEX)
+
+    elif request.method == 'POST':
+        pass
 
 
 @app.route('/<path>/<imgname>', methods=['GET'])

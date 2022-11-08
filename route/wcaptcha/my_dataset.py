@@ -35,7 +35,7 @@ transform = transforms.Compose([
 ])
 
 def O0oo0o0O0o(cname, transform=None):
-    image = Image.open("./wcaptcha/dataset/predict/{}.png".format(cname))
+    image = Image.open("./route/wcaptcha/dataset/predict/{}.png".format(cname))
     label = ohe.encode(cname.split('.')[0])
     if transform is not None:
         image = transform(image)
