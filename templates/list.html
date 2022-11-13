@@ -684,7 +684,14 @@
             <p>메인사진 수정</p>
           </div>
           <div class="line"></div>
-          <div class="confirm_cancel_btn">
+
+
+            <div class="confirm_cancel_btn">
+                          <input type="file" id="upImgFiles" onChange="uploadImgPreview();" accept="image/*" multiple>
+
+                <hr/>
+
+                <div id="thumbnailImgs"></div>
             <button type="button" value="취 소" class="cancel_btn" onclick="cancelMainPic()">취소</button>
             <input type="submit" value="확 인" class="submit_btn" />
           </div>
@@ -786,6 +793,49 @@
 
     <script>
       const modal_popup = function () {
+
+         // 이미지 업로드 부분
+         function uploadImgPreview() {
+
+            // 업로드 파일 읽기
+            let fileList = document.getElementById( "upImgFiles" ).files;
+
+            // 업로드 파일 읽기
+            function readAndPreview( fileList ) {
+                // 이미지 확장자 검사
+                if ( /\.(jpe?g|png|gif)$/i.test( fileList.name ) ) {
+                    let reader = new FileReader();
+                    reader.addEventListener( "load", function() {
+
+                        let image = new Image();
+
+                        image.width = "264";
+                        image.height = "264";
+                        image.title = fileList.name;
+                        image.src = this.result;
+
+                        // 이미지 확장자 검사
+                        document.getElementById( "thumbnailImgs" ).appendChild( image );
+                    }, false );
+
+                    // readAsDataURL( )을 통해 파일의 URL을 읽어온다.
+                    if( fileList ) {
+                        reader.readAsDataURL( fileList );
+                    }
+                }
+            }
+
+            if( fileList ) {
+                    // readAndPreview() 함수를 forEach문을통한 반복 수행
+            [].forEach.call( fileList, readAndPreview );
+
+            }
+
+        }
+
+
+
+
         // 임시 중국 옵션명(한자로 대체)
         $("button[name=beforeTrans]").attr("value", "中國");
 
