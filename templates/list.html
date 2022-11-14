@@ -32,8 +32,7 @@
     <link rel="stylesheet" href="../static/css/list.css" />
     <title>DINO</title>
     <script src="../static/js/jquery-3.3.1.min.js"></script>
-    <script src="../static/js/common.js"></script>
-    <script src="../static/js/main.js"></script>
+
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -684,14 +683,40 @@
             <p>메인사진 수정</p>
           </div>
           <div class="line"></div>
-
-
-            <div class="confirm_cancel_btn">
-                          <input type="file" id="upImgFiles" onChange="uploadImgPreview();" accept="image/*" multiple>
-
-                <hr/>
-
-                <div id="thumbnailImgs"></div>
+          <div class="main_photo_area">
+            <div class="photo">?</div>
+            <div class="edit_menu">
+              <div class="class1">
+                <img src="../static/images/goback.png" alt="" />
+                <img src="../static/images/goforward.png" alt="" />
+                <img src="../static/images/redo.png" alt="" />
+                <img src="../static/images/trash.png" alt="" />
+                <img src="../static/images/cut.png" alt="" />
+                <img src="../static/images/mirror.png" alt="" />
+                <img src="../static/images/refresh.png" alt="" />
+                <img src="../static/images/pen.png" alt="" />
+                <img src="../static/images/rectAndTri.png" alt="" />
+                <img src="../static/images/star.png" alt="" />
+                <img src="../static/images/text.png" alt="" />
+                <img src="../static/images/configure.png" alt="" />
+              </div>
+              <div class="class2">
+                <img id="rect" src="../static/images/rect.png" alt="" />
+                <img id="circle" src="../static/images/circle.png" alt="" />
+                <img id="triangle" src="../static/images/triangle.png" alt="" />
+                <img id="fill" src="../static/images/fill.png" alt="" />
+                <img id="stroke" src="../static/images/stroke.png" alt="" />
+              </div>
+              <div class="range-slider">
+                <img src="../static/images/stroke_bar.png" alt="" />
+                <input class="range-slider__range" type="range" value="0" min="0" max="24" />
+                <span class="range-slider__value">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="confirm_cancel_btn_area">
+            <input type="file" id="upImgFiles" onChange="uploadImgPreview();" accept="image/*" multiple />
+            <div id="thumbnailImgs"></div>
             <button type="button" value="취 소" class="cancel_btn" onclick="cancelMainPic()">취소</button>
             <input type="submit" value="확 인" class="submit_btn" />
           </div>
@@ -793,48 +818,44 @@
 
     <script>
       const modal_popup = function () {
+        // 이미지 업로드 부분
+        function uploadImgPreview() {
+          // 업로드 파일 읽기
+          let fileList = document.getElementById("upImgFiles").files;
 
-         // 이미지 업로드 부분
-         function uploadImgPreview() {
+          // 업로드 파일 읽기
+          function readAndPreview(fileList) {
+            // 이미지 확장자 검사
+            if (/\.(jpe?g|png|gif)$/i.test(fileList.name)) {
+              let reader = new FileReader();
+              reader.addEventListener(
+                "load",
+                function () {
+                  let image = new Image();
 
-            // 업로드 파일 읽기
-            let fileList = document.getElementById( "upImgFiles" ).files;
+                  image.width = "264";
+                  image.height = "264";
+                  image.title = fileList.name;
+                  image.src = this.result;
 
-            // 업로드 파일 읽기
-            function readAndPreview( fileList ) {
-                // 이미지 확장자 검사
-                if ( /\.(jpe?g|png|gif)$/i.test( fileList.name ) ) {
-                    let reader = new FileReader();
-                    reader.addEventListener( "load", function() {
+                  // 이미지 확장자 검사
+                  document.getElementById("thumbnailImgs").appendChild(image);
+                },
+                false
+              );
 
-                        let image = new Image();
-
-                        image.width = "264";
-                        image.height = "264";
-                        image.title = fileList.name;
-                        image.src = this.result;
-
-                        // 이미지 확장자 검사
-                        document.getElementById( "thumbnailImgs" ).appendChild( image );
-                    }, false );
-
-                    // readAsDataURL( )을 통해 파일의 URL을 읽어온다.
-                    if( fileList ) {
-                        reader.readAsDataURL( fileList );
-                    }
-                }
+              // readAsDataURL( )을 통해 파일의 URL을 읽어온다.
+              if (fileList) {
+                reader.readAsDataURL(fileList);
+              }
             }
+          }
 
-            if( fileList ) {
-                    // readAndPreview() 함수를 forEach문을통한 반복 수행
-            [].forEach.call( fileList, readAndPreview );
-
-            }
-
+          if (fileList) {
+            // readAndPreview() 함수를 forEach문을통한 반복 수행
+            [].forEach.call(fileList, readAndPreview);
+          }
         }
-
-
-
 
         // 임시 중국 옵션명(한자로 대체)
         $("button[name=beforeTrans]").attr("value", "中國");
@@ -1303,5 +1324,7 @@
         $sportAll.prop("checked", selectAll);
       });
     </script>
+    <script src="../static/js/common.js"></script>
+    <script src="../static/js/main.js"></script>
   </body>
 </html>
